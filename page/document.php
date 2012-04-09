@@ -8,13 +8,17 @@ class Page_Document extends Page {
 
   $f=$this->add('MVCForm');
   $m=$f->setModel('Model_Document');
-  $m->load(10177);
+  // $m->load(10177);
+  $m->load(207);
   
   
   $this->add('H2')->set('Line Items');
   $item=$m->ref('Item');
   $cItem=$this->add('CRUD');
-  $cItem->setModel($item,array('product','description','serial','quantity','sellprice'));
+  $cItem->setModel($item);
+  if( $cItem->grid ) {
+    $cItem->grid->addPaginator(10);
+  }
 
   switch( $m->get('type') ) {
     case 'si':

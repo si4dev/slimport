@@ -6,7 +6,7 @@ class Page_Contact extends Page {
     $c->setModel('Contact');
     if($c->grid) {
       $c->grid->addPaginator(10);
-      //$c->grid->addQuickSearch(array('company'));
+      $c->grid->addQuickSearch(array('company','firstname','lastname','phone','mobile','notes'));
     }
   }
 }

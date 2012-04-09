@@ -29,8 +29,7 @@ class Model_Contact extends Model_Table {
   }
 
 
-  function import() { }
-  function import2() { 
+  function import() {  
   
     $this->dsql()->truncate();
    
