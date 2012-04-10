@@ -8,9 +8,11 @@ class Page_Document extends Page {
 
   $f=$this->add('MVCForm');
   $m=$this->add('Model_Document');
+//  $m->getElement('contact_id')->type('autocomplete');
   
   // $m->load(10177);
   $f->setModel($m);
+  //$f->addField('autocomplete','autocomplete');
   // this is a test invoice 207 to show something, of course a page should be launched to
   // show a list of documents or add a new one.
   $m->load(207);

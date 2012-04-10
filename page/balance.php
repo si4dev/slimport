@@ -5,7 +5,7 @@ class Page_Balance extends Page {
     
     
   
-    $this->add('Model_Sqlledger');
+
 
     $q=$this->api->db->dsql();
     $q->table('ledger')
@@ -23,6 +23,7 @@ class Page_Balance extends Page {
     $q->debug();
 
 /* original to postgresql
+    $this->add('Model_Sqlledger');
     $q=$this->api->db2->dsql();
     $q->table('acc_trans')
       ->field('accno')->group('accno')
