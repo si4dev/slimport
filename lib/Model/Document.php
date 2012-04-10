@@ -11,8 +11,8 @@ class Model_Document extends Model_Table {
     $this->addField('type')->enum(array('si','so','sq','pi','po','pq','gl'));
     $this->addField('number');
     $this->addField('reference');
-    $this->addField('transdate');
-    $this->addField('currency');
+    $this->addField('transdate')->type('date');
+    $this->addField('currency')->editable(false);
     $this->hasOne('Contact');
     $this->hasOne('Employee','employee_id');
     $this->addField('approved')->type('boolean');
