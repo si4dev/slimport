@@ -9,7 +9,7 @@ class Model_Item extends Model_Table {
     $this->addField('description');
     $this->addField('serial');
     $this->addField('quantity');
-    $this->addField('sellprice');
+    $this->addField('price');
   }
 
 
@@ -23,7 +23,7 @@ class Model_Item extends Model_Table {
       ->field($q->expr('(parts_id-10000)'),'product_id')
       ->field('description')
       ->field('qty',null,'quantity')
-      ->field('sellprice')
+      ->field('sellprice',null,'price')
       ;
     foreach($q as $row) {
       $this->unload()->set($row)->save(); 
@@ -37,7 +37,7 @@ class Model_Item extends Model_Table {
       ->field('description')
       ->field('serialnumber',null,'serial')
       ->field('qty',null,'quantity')
-      ->field('sellprice')
+      ->field('sellprice',null,'price')
       ;
     foreach($q as $row) {
       $this->unload()->set($row)->save(); 

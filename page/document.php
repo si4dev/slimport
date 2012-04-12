@@ -23,10 +23,10 @@ class Page_Document extends Page {
   $cItem=$this->add('CRUD');
   $cItem->setModel($item);
   if( $cItem->grid ) {
-    $cItem->grid->addPaginator(10);
+    //$cItem->grid->addPaginator(10);
   }
 
-  // only imppact on ledger for invoice and general ledger. Not for order and quote.
+  // only impact on ledger for invoice and general ledger. Not for order and quote.
   switch( $m->get('type') ) {
     case 'si':
     case 'pi':

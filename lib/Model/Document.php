@@ -13,9 +13,11 @@ class Model_Document extends Model_Table {
     $this->addField('reference','autocomplete');
     $this->addField('transdate')->type('date');
     $this->addField('currency')->editable(false);
+    $this->addField('notes');
+    $this->addField('intnotes');
     $this->hasOne('Contact'); //->display('autocomplete');
     $this->hasOne('Employee','employee_id');
-    $this->addField('approved')->type('boolean');
+    $this->addField('approved')->type('boolean')->editable(false);
     $this->setMasterField('business_id',1);
     $this->hasMany('Item');
     $this->hasMany('Ledger');

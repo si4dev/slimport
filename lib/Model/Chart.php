@@ -4,7 +4,7 @@ class Model_Chart extends Model_Table {
   public $title_field='description';
   function init() {
     parent::init();
-    
+    $this->hasOne('Business'); 
     $this->addField('accno');
     $this->addField('description');
     $this->addField('charttype'); // H=Header, A=Asset, E=Expense 
