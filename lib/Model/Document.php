@@ -10,12 +10,12 @@ class Model_Document extends Model_Table {
     $this->hasOne('Business');
     $this->addField('type')->enum(array('si','so','sq','pi','po','pq','gl'));
     $this->addField('number');
-    $this->addField('reference','autocomplete');
+    $this->addField('reference');
     $this->addField('transdate')->type('date');
     $this->addField('currency')->editable(false);
     $this->addField('notes');
     $this->addField('intnotes');
-    $this->hasOne('Contact'); //->display('autocomplete');
+    $this->hasOne('Contact');
     $this->hasOne('Employee','employee_id');
     $this->addField('approved')->type('boolean')->editable(false);
     $this->setMasterField('business_id',1);

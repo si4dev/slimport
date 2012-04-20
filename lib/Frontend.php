@@ -22,9 +22,12 @@ class Frontend extends ApiFrontend {
     $menu->addMenuItem('balance','Balance Sheet');
     $menu->addMenuItem('batch','Bank Import');
     $menu->addMenuItem('contact','Contact');
-    
+    $menu->addMenuItem('logout','Logout');
 
     $this->dbConnect();
+    
+    $this->add('Auth')->setModel('User');
+    $this->auth->check();
 	}
   
     function page_index($page){

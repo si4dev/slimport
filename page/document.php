@@ -3,15 +3,18 @@ class Page_Document extends Page {
  function init() {
   parent::init();
   
+  
+  $this->add('P')->set('logged in as '.$this->api->auth->get('email'));
    
   // f for form and m for model used for the main form / model of this page. Then easy to reuse page snippets
-
   $f=$this->add('MVCForm');
   $m=$this->add('Model_Document');
-//  $m->getElement('contact_id')->type('autocomplete');
+//  $m->getElement('contact_id')->display('autocomplete');
   
   // $m->load(10177);
+  
   $f->setModel($m);
+ 
   //$f->addField('autocomplete','autocomplete');
   // this is a test invoice 207 to show something, of course a page should be launched to
   // show a list of documents or add a new one.
