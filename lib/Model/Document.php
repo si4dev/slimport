@@ -10,15 +10,18 @@ class Model_Document extends Model_Table {
     $this->hasOne('Business');
     $this->addField('type')->enum(array('si','so','sq','pi','po','pq','gl'));
     $this->addField('number');
-    $this->addField('reference');
+    $this->addField('reference_document_id');
     $this->addField('transdate')->type('date');
     $this->addField('currency')->editable(false);
     $this->addField('notes');
     $this->addField('intnotes');
     $this->hasOne('Contact');
     $this->hasOne('Employee','employee_id');
+    $this->hasOne('Connect');
+    $this->addField('connect_ref'); // id of other system connected to, e.g. prestashop id_order
+    $this->addField('bank_refs'); // room to list other references possible for bank recognition (invoice/order/cart)
     $this->addField('approved')->type('boolean')->editable(false);
-    $this->setMasterField('business_id',1);
+//    $this->setMasterField('business_id',1);
     $this->hasMany('Item');
     $this->hasMany('Ledger');
   }

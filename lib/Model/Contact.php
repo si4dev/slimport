@@ -22,10 +22,11 @@ class Model_Contact extends Model_Table {
     $this->addField('iban');
     $this->addField('bic');
     $this->hasOne('Employee','employee_id');
+    $this->hasOne('Connect');
     $this->addField('startdate');
     $this->addField('enddate');
     $this->addExpression('name')->set('concat(firstname,lastname,company)');
-    
+    $this->hasMany('Address');
   }
 
 

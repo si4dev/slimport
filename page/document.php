@@ -7,7 +7,7 @@ class Page_Document extends Page {
   $this->add('P')->set('logged in as '.$this->api->auth->get('email'));
    
   // f for form and m for model used for the main form / model of this page. Then easy to reuse page snippets
-  $f=$this->add('MVCForm');
+  $f=$this->add('Form');
   $m=$this->add('Model_Document');
 //  $m->getElement('contact_id')->display('autocomplete');
   
