@@ -3,12 +3,23 @@ class page_transaction extends Page {
   function init() {
     parent::init();
 
-    $this->add('Text')->set('do the transaction stuff');
+    $b=$this->api->business;
+    $this->add('H1')->set('Transactions');
+    $this->add('Text')->set('do the transaction stuff '. $b->get('name'));
     
-    $m=$this->add('Model_BankTransaction')->setMasterField('batch_id', 13);
-    $f=$this->add('MVCForm')->setModel($m);
+    $t=$b->ref('Batch')->load($this->api->memorize('batch',$_GET['batch']))->ref('Transaction_Suggestion');
+    $g=$this->add('grid');
+    $g
+      ->addPaginator(15)
+      ->addColumn('expander','booking')
+      ->setModel($t,array('suggestion','account','currency','date','amount','contra_account','description','notes'));
     
-    $m->load(350);
+    
+    
+    //$m=$this->add('Model_BankTransaction')->setMasterField('batch_id', 13);
+    //$f=$this->add('MVCForm')->setModel($m);
+    
+    //$m->load(350);
     
     /*
     $f=$this->add('Form');

@@ -25,8 +25,13 @@ class Model_Contact extends Model_Table {
     $this->hasOne('Connect');
     $this->addField('startdate');
     $this->addField('enddate');
+    $this->addField('rule_arap_id');
+    $this->addField('rule_tax_id');
     $this->addExpression('name')->set('concat(firstname,lastname,company)');
     $this->hasMany('Address');
+    $this->hasMany('RuleChart','id','rule_arap_id');
+    $this->hasMany('RuleChart_Tax','id','rule_tax_id');
+
   }
 
 

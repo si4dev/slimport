@@ -5,7 +5,8 @@ class Model_Transaction extends Model_Table {
      function init(){
         parent::init();
 
-        $this->addField('batch_id');
+        $this->hasOne('Batch');
+        $this->addField('raw');
         $this->addField('account');
         $this->addField('currency');
         $this->addField('date');

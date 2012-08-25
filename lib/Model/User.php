@@ -6,5 +6,6 @@ class Model_User extends Model_Table {
 
     $this->addField('name');
     $this->addField('email');
+    $this->hasMany('UserBusiness');
   }
 }

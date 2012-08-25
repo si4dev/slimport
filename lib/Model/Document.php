@@ -19,13 +19,21 @@ class Model_Document extends Model_Table {
     $this->hasOne('Employee','employee_id');
     $this->hasOne('Connect');
     $this->addField('connect_ref'); // id of other system connected to, e.g. prestashop id_order
-    $this->addField('bank_refs'); // room to list other references possible for bank recognition (invoice/order/cart)
+    $this->addField('bank_matches'); // room to list other references possible for bank recognition (invoice/order/cart)
     $this->addField('approved')->type('boolean')->editable(false);
 //    $this->setMasterField('business_id',1);
     $this->hasMany('Item');
     $this->hasMany('Ledger');
   }
 
+  function ledger() {
+    $this->ref('Ledger')->addCondition('item_id','is not',null)->deleteAll();
+    $items=$this->ref('Item');
+    foreach($items as $item) {
+      $items->ledger();
+    }
+  }
+  
 
   function import() {
     $this->dsql()->truncate();

@@ -8,9 +8,11 @@ class Model_Business extends Model_Table {
     $this->hasMany('Contact');
     $this->hasMany('Contact_Customer');
     $this->hasMany('Contact_Vendor');
+    $this->hasMany('Contact_Bank');
     $this->hasMany('Document');
     $this->hasMany('Document_SalesOrder');
     $this->hasMany('Product');
     $this->hasMany('Chart');
+    $this->hasMany('Batch');
   }
 }

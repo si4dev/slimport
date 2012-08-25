@@ -9,10 +9,16 @@ class Model_Product extends Model_Table {
     $this->addField('unit');
     $this->addField('sellprice');
     $this->addField('active');
+    $this->hasOne('Rule','rule_tax_id');
+    $this->addField('rule_pl_id');
+    $this->hasMany('RuleChart','id','rule_pl_id');
+    $this->hasMany('RuleChart_Tax','id','rule_tax_id');
     $this->hasOne('Business');
-    $this->setMasterField('business_id',1);
+    //$this->setMasterField('business_id',1);
     //$this->addExpression('name',"concat(productcode,' ',description)");
-  }
+
+  
+      }
 
 
   function import() {

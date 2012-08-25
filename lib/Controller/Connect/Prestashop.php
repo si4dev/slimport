@@ -17,13 +17,12 @@ class Controller_Connect_Prestashop extends AbstractController {
     
     $business=$this->model->ref('business_id');
     
-    echo $business->id;echo '+++';
     $contact=$business->ref('Contact_Customer');
     $document=$business->ref('Document_SalesOrder')->addCondition('connect_id',$this->model->id);
+    $product=$business->ref('Product');
     
     
     foreach($orders as $order) {
-      print_r($order);
       $customer=$orders->ref('id_customer');
       $address=$orders->ref('id_address_delivery');
       // set contact field in slimport based on prestashop
@@ -35,8 +34,10 @@ class Controller_Connect_Prestashop extends AbstractController {
           ->set('mobile',$address['phone_mobile'])
           ->set('company',$address['company'])
           ->set('connect_id',$this->model->id)
-          ->set('employee_id',1);
-          
+          ->set('rule_arap_id',6)
+          ->set('rule_tax_id',1)
+          ->set('employee_id',1)
+          ;
       $contact->getElement('terms')->defaultValue(14);
       $contact->save();
 
@@ -49,15 +50,46 @@ class Controller_Connect_Prestashop extends AbstractController {
           ->set('country_iso',$address['iso_code'])
           ->save();
 
+      $document->_dsql()->owner->beginTransaction();
+ 
+      // set document fields in slimport based on shopimport order
       $document->tryLoadBy('connect_ref',$order['id_order'])
           ->set('number',$order['id_order'])
           ->set('transdate',$order['date_add'])
           ->set('contact_id',$contact->id)
-          ->set('employee_id',1);
+          ->set('bank_matches','|cart:'.$order['id_cart'].'|order:'.$order['id_order'].'|invoice:'.$order['invoice_number'].'|picklist:'.$order['delivery_number'].'|')
+          ->set('employee_id',1)
           ;
       $document
-          ->debug()->save();
+          ->save();
+   
+      // products and items
+      $shopitems=$orders->ref('Connect_Prestashop_Item');
+      $item=$document->ref('Item');
+
+      foreach($shopitems as $shopitem) {
+        $product->tryLoadBy('productcode',$shopitem['product_reference'])
+            ->set('description',$shopitem['product_name'])
+            ->set('sellprice',round($shopitem['price'] / $order['conversion_rate'],2))
+            ->set('rule_tax_id',3)
+            ->set('rule_pl_id',4)
+            ->save();
+        $item->tryLoadBy('product_id',$product->id)
+            ->set('description',$shopitem['product_name'])
+            ->set('quantity',9999+$shopitem['quantity'])
+            ->set('price',round($shopitem['price'] / $order['conversion_rate'],2))
+            ->save();
+       
+        
+        
+      }
+      $document->ledger();
       
+      
+      $document->_dsql()->owner->commit();
+      // $document->_dsql()->owner->rollback();
+ 
+
       $i++; if($i > 2) break;
     }
 

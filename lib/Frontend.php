@@ -28,6 +28,15 @@ class Frontend extends ApiFrontend {
     
     $this->add('Auth')->setModel('User');
     $this->auth->check();
+    
+    // memorize business or default to first business
+    if($b=$this->api->recall('business_id')) {
+      $this->api->business=$this->auth->model->ref('UserBusiness')->loadBy('business_id',$b)->ref('business_id');
+    } else {
+      $this->api->business=$this->auth->model->ref('UserBusiness')->loadAny();
+      $this->api->memorize('business_id',$this->api->business->id);
+    }
+  
 	}
   
     function page_index($page){

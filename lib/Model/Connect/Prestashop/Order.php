@@ -6,6 +6,8 @@ class Model_Connect_Prestashop_Order extends Model_Connect_Table {
     parent::init();
     $this->debug();
     $this->hasOne('Connect_Prestashop_Address','id_address_delivery','id_address');
+    $this->addField('invoice_number');
+    $this->addField('delivery_number');
     $this->addField('date_add');
     // get history with max date by this article:
     // http://stackoverflow.com/questions/121387/fetch-the-row-which-has-the-max-value-for-a-column/123481#123481
@@ -26,8 +28,9 @@ class Model_Connect_Prestashop_Order extends Model_Connect_Table {
     $cur=$this->join('ps_currency.id_currency','id_currency');
     $cur->addField('conversion_rate');
     // totals in euro
-    $this->addExpression('total')->set('round(total_paid / conversion_rate, 2)');
+    $this->addField('total_paid');
     $this->hasOne('Connect_Prestashop_Customer','id_customer');
+    $this->hasMany('Connect_Prestashop_Item','id_order');
   /*
           select
           	o.id_order OrderID, o.date_add OrderDate, 

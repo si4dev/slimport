@@ -5,6 +5,7 @@ class Model_Ledger extends Model_Table {
     parent::init();
     $this->hasOne('Chart');
     $this->hasOne('Document');
+    $this->hasOne('Item');
     $this->addField('amount');
     $this->addField('transdate');
     $this->addField('reference');
