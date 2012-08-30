@@ -29,6 +29,7 @@ class Page_Document extends Page {
   }
   $cTrans->setModel($m->ref('Transaction'),array('transdate','amount','contra_account','notes'));
   if( $cTrans->grid ) {
+      $cTrans->grid->addFormatter('notes','wrap');
     //$cTrans->grid->addPaginator(10);
   }
 
