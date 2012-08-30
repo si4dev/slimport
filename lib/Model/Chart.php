@@ -1,12 +1,12 @@
 <?php
 class Model_Chart extends Model_Table {
   public $table='chart';
-  public $title_field='description';
   function init() {
     parent::init();
     $this->hasOne('Business'); 
     $this->addField('accno');
     $this->addField('description');
+    $this->addExpression('name',"concat(accno,' ',description)");
     $this->addField('charttype'); // H=Header, A=Asset, E=Expense 
     $this->addField('category'); // Q=eQuity, L=Liability, A=Asset, E=Expense, I=Income 
     // combinations charttype-category: A-Q,A-L,A-A,A-E,A-I,E-E, rest is Headers

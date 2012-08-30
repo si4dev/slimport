@@ -46,10 +46,11 @@ class Model_Transaction_Suggestion extends Model_Transaction {
     
       $document=$this->api->business->ref('Document')->dsql(); // clone of dsql 
       
+      
       $document
         ->where($document->expr("'24' like number"));
-      $r=$document->debug()  ->get();
-echo '===';      print_r($r);
+      $r=$document  ->get();
+echo '===';    //  print_r($r);
       
   }
 

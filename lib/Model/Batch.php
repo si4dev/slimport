@@ -1,19 +1,11 @@
 <?php
 
 class Model_Batch extends Model_Table {
-  public $table='bank_batch';
+  public $table='batch';
+  public $title_field='id';
   function init() {
     parent::init();
-    
-    $this->addField('bank_file_type')
-      ->datatype('list')
-      ->listData(array(1=>'abn',2=>'ing' ) )
-      ->defaultValue('abn');
-    //->setValueList(array('abn','ing'));
-    //http://chat.stackoverflow.com/transcript/2966/2011/9/8/11-23
-
-    $this->hasOne('Business');
-    $this->hasMany('Transaction_Suggestion');
+    $this->hasOne('Connect',null,'platform');
     
     /*
     let's say you need a form with file upload. how to do that? here's how: 
@@ -25,12 +17,21 @@ class Model_Batch extends Model_Table {
     */
     
     // https://groups.google.com/forum/#!topic/agile-toolkit-devel/7CFqBuoUfpY
-    $this->add("filestore/Field_File", "bank_file")->setModel('filestore/File'); //->display(array('form'=>'upload','filename'=>'text'));
+    $this->add("filestore/Field_File", "filestore_id")->setModel('filestore/File','original_filename'); //->display(array('form'=>'upload','original_filename'=>'text'));
 //    $this->addField('bank_file')->refModel('Model_Filestore_File')->display('file');
+
+
+    $this->hasMany('Transaction');
+  
+    
   }
 
+  function import(){
+    // connect field contains the platform to connect to like abnamro / prestshop / ogone
+      return $this->setController('Connect_'.ucwords($this->get('connect')))->import();
+  }
 
-  function import() {
+  function ZZZimport() {
     switch ( $this->get('bank_file_type') ) {
       case 'abn':
         $this->importAbn();
@@ -42,7 +43,7 @@ class Model_Batch extends Model_Table {
     return " test";
   }
     
-  function importAbn() {  
+  function ZZZimportAbn() {  
     $m=$this->ref('Transaction');
     $m->deleteAll();
         // http://agiletoolkit.org/learn/tutorial/jobeet/day9
@@ -137,7 +138,7 @@ Array ( [0] => Datum [1] => Naam / Omschrijving [2] => Rekening [3] => Tegenreke
 [6] => Bedrag (EUR) [7] => MutatieSoort [8] => Mededelingen )
 */
 
-  function importIng() {  
+  function ZZZimportIng() {  
     $batch_id = $this->get( 'id' );
     $m=$this->add('Model_Transaction');
         // http://agiletoolkit.org/learn/tutorial/jobeet/day9

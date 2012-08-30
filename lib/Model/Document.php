@@ -2,6 +2,10 @@
 // ar=account receivables=debiteuren=verkoop
 // ap=account payables=crebiteuren=inkoop
 // http://en.wikipedia.org/wiki/Specialized_journals
+
+// alles wat sowieso in de factuur moet komen doen we niet in contacts.
+// dus bijvoorbeeld de AR of AP chart en ook de default kosten chart bij inkoop
+// dit komt dan in een template factuur die we contracten noemen
 class Model_Document extends Model_Table {
   public $table='document';
   public $title_field='number';
@@ -16,14 +20,22 @@ class Model_Document extends Model_Table {
     $this->addField('notes');
     $this->addField('intnotes');
     $this->hasOne('Contact');
-    $this->hasOne('Employee','employee_id');
-    $this->hasOne('Connect');
-    $this->addField('connect_ref'); // id of other system connected to, e.g. prestashop id_order
+    $this->hasOne('Employee','employee_id')->system(true);
+    $this->hasOne('Batch')->system(true);
     $this->addField('bank_matches'); // room to list other references possible for bank recognition (invoice/order/cart)
     $this->addField('approved')->type('boolean')->editable(false);
-//    $this->setMasterField('business_id',1);
+    $this->hasOne('Chart','chart_against_id'); // for SI (sales invoice) it's AR, for PI it's AP, bank is 
+    $this->addField('rule_notax_id'); // rule out some taxes, so US customer should not pay 19%/6%/0% tax
+    $this->hasMany('RuleChart','id','rule_notax_id');
+    
+
+//    $this->addField('rule_arap_id');
+//    $this->hasMany('RuleChart','id','rule_arap_id');
+
+
     $this->hasMany('Item');
     $this->hasMany('Ledger');
+    $this->hasMany('Transaction');
   }
 
   function ledger() {

@@ -7,6 +7,7 @@ class Model_Connect extends Model_Table {
     $this->hasOne('Business');
     $this->addField('platform');
     $this->addField('source');
+    $this->hasMany('Batch');
   }
   
   function connect() {

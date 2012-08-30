@@ -13,8 +13,7 @@ class page_transaction extends Page {
       ->addPaginator(15)
       ->addColumn('expander','booking')
       ->setModel($t,array('suggestion','account','currency','date','amount','contra_account','description','notes'));
-    
-    
+    $g->columns['notes']['thparam']=' style="color:red;width: 30px"'; 
     
     //$m=$this->add('Model_BankTransaction')->setMasterField('batch_id', 13);
     //$f=$this->add('MVCForm')->setModel($m);

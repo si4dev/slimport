@@ -15,12 +15,12 @@ class Frontend extends ApiFrontend {
 			->_load('atk4_univ')
 			// ->_load('ui.atk4_expander')
 			;
-    
+
     $menu = $this->add('Menu',null,'Menu');
     $menu->addMenuItem('documents','Documents');
     $menu->addMenuItem('document','Document');
     $menu->addMenuItem('balance','Balance Sheet');
-    $menu->addMenuItem('batch','Bank Import');
+    $menu->addMenuItem('connect','Connect');
     $menu->addMenuItem('contact','Contact');
     $menu->addMenuItem('logout','Logout');
 

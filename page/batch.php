@@ -4,7 +4,7 @@ class page_batch extends Page {
     parent::init();
   
   
-    $b=$this->add('Model_Business')->load(2);
+    $b=$this->api->business;
   
   
 /*  
@@ -17,19 +17,25 @@ class page_batch extends Page {
     $f->setModel('Batch');
     $f->addSubmit();
 */    
-    
-    $crud=$this->add('CRUD');
-    $crud->setModel($b->ref('Batch'));
 
-    if($crud->grid){
-      $crud->grid->addColumn('button','import');
+    if(!$shop_id=$_GET['connect']) {
+      $this->add('Hint')->set('First select what to connect to'); 
+      return;
+    }
+    
+    $this->api->stickyGET('connect');
+    $c=$this->add('CRUD');
+    $c->setModel($b->ref('Connect')->load($_GET['connect'])->ref('Batch'));
+
+    if($c->grid){
+      $c->grid->addColumn('button','import');
       if($_GET['import']){
-        $r = $crud->grid->getModel()->loadData($_GET['import'])->import();
+        $r = $c->grid->getModel()->load($_GET['import'])->import();
        
-        $crud->grid->js(null,$crud->grid->js()->univ()->successMessage('Imported batch #'.
+        $c->grid->js(null,$c->grid->js()->univ()->successMessage('Imported batch #'.
         $_GET['import'].''.$r))->reload()->execute();
       }
-      $crud->grid->addColumn('button','transactions');
+      $c->grid->addColumn('button','transactions');
         if($_GET['transactions']){
           //$this->api->memorize('shop',$_GET['pricelist']);
            // $c->grid->js(null,$c->grid->js()->univ()->successMessage('Imported batch #'.$_GET['pricelist'].''.$r))->reload()->execute();
@@ -41,12 +47,11 @@ class page_batch extends Page {
                 'transaction',array(
                 'batch'=> $_GET['transactions']
                 ));
-          $crud->js()->univ()->location($p)->execute();
+          $c->js()->univ()->location($p)->execute();
         
           $this->api->redirect($p);
         }
     }
-
 
   }
 }

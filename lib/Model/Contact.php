@@ -10,6 +10,7 @@ class Model_Contact extends Model_Table {
     $this->addField('firstname');
     $this->addField('middlename');
     $this->addField('lastname');
+    $this->addExpression('name')->set('concat(firstname,lastname,company)');
     $this->addField('company');
     $this->addField('phone');
     $this->addField('mobile');
@@ -22,15 +23,14 @@ class Model_Contact extends Model_Table {
     $this->addField('iban');
     $this->addField('bic');
     $this->hasOne('Employee','employee_id');
-    $this->hasOne('Connect');
+    $this->hasOne('Batch')->system(true);
     $this->addField('startdate');
     $this->addField('enddate');
-    $this->addField('rule_arap_id');
-    $this->addField('rule_tax_id');
-    $this->addExpression('name')->set('concat(firstname,lastname,company)');
     $this->hasMany('Address');
-    $this->hasMany('RuleChart','id','rule_arap_id');
-    $this->hasMany('RuleChart_Tax','id','rule_tax_id');
+//    $this->addField('rule_arap_id');
+//    $this->addField('rule_tax_id');
+//    $this->hasMany('RuleChart','id','rule_arap_id');
+//    $this->hasMany('RuleChart_Tax','id','rule_tax_id');
 
   }
 
