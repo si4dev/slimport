@@ -14,11 +14,10 @@ class Model_Product extends Model_Table {
     $this->hasMany('RuleChart','id','rule_pl_id');
     $this->hasMany('RuleChart_Tax','id','rule_tax_id');
     $this->hasOne('Business');
-    //$this->setMasterField('business_id',1);
     //$this->addExpression('name',"concat(productcode,' ',description)");
 
-  
-      }
+      $this->addCondition('business_id',$this->api->business->id);
+    }
 
 
   function import() {

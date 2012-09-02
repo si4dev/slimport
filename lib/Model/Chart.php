@@ -6,12 +6,14 @@ class Model_Chart extends Model_Table {
     $this->hasOne('Business'); 
     $this->addField('accno');
     $this->addField('description');
+    $this->addField('type');
     $this->addExpression('name',"concat(accno,' ',description)");
     $this->addField('charttype'); // H=Header, A=Asset, E=Expense 
     $this->addField('category'); // Q=eQuity, L=Liability, A=Asset, E=Expense, I=Income 
     // combinations charttype-category: A-Q,A-L,A-A,A-E,A-I,E-E, rest is Headers
     // E-E is alleen "Toeslag Indirecte Verkoopkosten"
-    
+    $this->addCondition('business_id',$this->api->business->id);
+    $this->hasMany('Tax');
   }
 
   function import() {

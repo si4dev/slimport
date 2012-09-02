@@ -31,7 +31,7 @@ class Model_Contact extends Model_Table {
 //    $this->addField('rule_tax_id');
 //    $this->hasMany('RuleChart','id','rule_arap_id');
 //    $this->hasMany('RuleChart_Tax','id','rule_tax_id');
-
+    $this->addCondition('business_id', $this->api->business->id);
   }
 
 
