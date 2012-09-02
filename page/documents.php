@@ -4,7 +4,7 @@ class Page_Documents extends Page {
     parent::init();
     
     
-    $c=$this->add('GRID');
+    $c=$this->add('Grid');
     $m=$this->api->business->ref('Document');//->addCondition('type','');
     
     $m->getField('business')->visible(false);
