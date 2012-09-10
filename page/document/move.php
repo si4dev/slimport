@@ -2,6 +2,8 @@
 class page_document_move extends Page {
   function init() {
     parent::init();
+
+    $this->api->stickyGET('id');
     
     $b=$this->api->business;
     $this->add('P')->set('Booking: '.$_GET['id']);
@@ -10,13 +12,14 @@ class page_document_move extends Page {
     $t=$this->add('Model_Transaction')->load($_GET['id']);
     $d=$t->ref('document_id')->loadBy('business_id',$b->id);
 
-    $f=$this->add('Form');
+    $f=$this->add('Form_Move');
     
     $m=$b->ref('Match');
-    $f->addField('radio','type')->setValueList(array('ar','ap','bank'));
+    $f->addField('dropdown','type')->setValueList(array('ar'=>'ar','ap'=>'ap','bank'=>'bank'));
     
 // TODO: Here 'ar' should be the value from the radio box above
-    $m->getElement('contact_id')->getModel()->addCondition('type','ar');
+    $type = (isset($_GET['type'])) ? $_GET['type'] : 'ar' ;
+    $m->getElement('contact_id')->getModel()->addCondition('type',$type);
 
     $m->getElement('chart_tax_id')->getModel()->setTransDate($t->get('transdate')); // find tax for this specific date
     
@@ -33,7 +36,19 @@ class page_document_move extends Page {
     $f->setModel($m);
     
     
-    
-    
   }
+}
+
+
+class Form_Move extends Form {
+    function setModel($m) {
+        parent::setModel($m);
+
+        $type = $this->getElement('type');
+        $this->js('change',$this->js()->atk4_form('reloadField','contact_id',array(
+                            $this->api->url(),
+                            'type'=>$type->js()->val())
+        ));
+
+    }
 }
