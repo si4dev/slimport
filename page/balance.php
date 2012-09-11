@@ -4,30 +4,34 @@ class Page_Balance extends Page {
     parent::init();
     
     
-  
+    $b=$this->api->business;
 
 
     $q=$this->api->db->dsql();
     $q->table('ledger')
-      ->join('chart')
-      ->field('accno')->group('accno')
-      ->field('charttype')->group('charttype')
+      ->join('document',null,'inner')
+      ->join('chart',null,'inner')
+      ->field('acc_nr')->group('acc_nr')
+      ->field('chart_type')->group('chart_type')
       ->field('category')->group('category')
       ->field('description')
-      ->field($q->expr('sum(amount)'),'amount')
-      ->where('transdate','>=','2010-01-01')
-      ->where('transdate','<','2010-12-31')
-      ->having('abs(sum(amount))>',0.001)
-      ->order('category')->order('accno')
+      ->field($q->expr('sum(if(amount<0,-amount,0))'),'debet') // debet
+      ->field($q->expr('sum(if(amount>0,amount,0))'),'credit')  // credit
+      ->where('ledger.transdate','>=','2011-01-01')
+      ->where('ledger.transdate','<','2011-12-31')
+      ->where('chart.business_id',$b->id)
+  //    ->having('abs(sum(amount_credit))>',0.001)
+  //    ->where('category','in',array('E','I'))
+      ->order('category')->order('chart_type')->order('acc_nr')
       ;
     $q->debug();
 
-/* original to postgresql
+/* original to postgresql  -- not operational!
     $this->add('Model_Sqlledger');
     $q=$this->api->db2->dsql();
     $q->table('acc_trans')
       ->field('accno')->group('accno')
-      ->field('charttype')->group('charttype')
+      ->field('chart_type')->group('chart_type')
       ->field('category')->group('category')
       ->join('chart')
       ->field($q->expr('max(description)'),'description')
@@ -39,15 +43,48 @@ class Page_Balance extends Page {
       ;
     $q->debug();
 */
-    
-    
+
+//      $line->template->set($row);
+
+    foreach($q as $l) {
+      $ledger[$l['acc_nr']]=$l;
+    }
+
+    $chart=$b->ref('Chart')->setOrder('category','desc')->setOrder('acc_nr');
+    $result=array();
+    foreach($chart as $c) {
+      $i=$c['acc_nr'];
+      if(isset($ledger[$i])) {
+        $result[$i]=(array)$c;
+        $result[$i]['debet']=number_format($ledger[$i]['debet'],2);
+        $result[$i]['credit']=number_format($ledger[$i]['credit'],2);
+        $result[$i]['amount']=number_format($ledger[$i]['debet']-$ledger[$i]['credit'],2);
+      } elseif($c['chart_type']=='H') {
+        $result[$i]=(array)$c;
+                //$result[$i]['debet']=0;
+        //$result[$i]['credit']=0;
+      }
+    }
+
+
+    $line=$this->add('Lister',null,'Line','Line');
+    $line->setSource($result);
+        
+
     $c=$this->add('Grid');
-    $c->addColumn('text','accno')
+    $c->addColumn('text','acc_nr')
       ->addColumn('text','description')
-      ->addColumn('text','charttype')
+      ->addColumn('text','chart_type')
       ->addColumn('text','category')
-      ->addColumn('money','amount')
+      ->addColumn('number','debet')
+      ->addColumn('number','credit')
+      ->addColumn('number','amount')
+      ->addTotals(array('debet','credit'))
+      ->setTotalsTitle('description','Totals')
       ;
-      $c->setSource($q);
+      $c->setSource($result);
+  }
+  function defaultTemplate() {
+      return array('page/balance');
   }
 }

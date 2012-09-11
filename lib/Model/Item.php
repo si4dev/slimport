@@ -88,31 +88,35 @@ class Model_Item extends Model_Table {
 
   }
 
-  function import() {
-    $this->dsql()->truncate();
+  function sl_import($trans_id) {
+    $this->deleteAll();
+
+    if( !$this->sl_id) {
+      $this->join('sqlledger.item_id','id')->addField('sl_id');
+      $this->sl_id=true;
+    }
    
     $q=$this->api->db2->dsql();
     $q->table('orderitems')
-      ->field($q->expr('(id-10000)'),'id')
-      ->field($q->expr('(trans_id-10000)'),'document_id')
-      ->field($q->expr('(parts_id-10000)'),'product_id')
+      ->field('id',null,'sl_id')
+      ->field('parts_id',null,'product_id')
       ->field('description')
       ->field('qty',null,'quantity')
       ->field('sellprice',null,'price')
+      ->where('trans_id',$trans_id)
       ;
     foreach($q as $row) {
       $this->unload()->set($row)->save(); 
     }
-   
     $q=$this->api->db2->dsql();
     $q->table('invoice')
-      ->field($q->expr('(id-10000)'),'id')
-      ->field($q->expr('(trans_id-10000)'),'document_id')
-      ->field($q->expr('(parts_id-10000)'),'product_id')
+      ->field('id',null,'sl_id')
+      ->field('parts_id',null,'product_id')
       ->field('description')
       ->field('serialnumber',null,'serial')
       ->field('qty',null,'quantity')
-      ->field('sellprice',null,'price')
+      ->field('fxsellprice',null,'price')
+      ->where('trans_id',$trans_id)
       ;
     foreach($q as $row) {
       $this->unload()->set($row)->save(); 

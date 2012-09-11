@@ -20,13 +20,14 @@ class Model_Product extends Model_Table {
     }
 
 
-  function import() {
-    $this->dsql()->truncate();
+  function sl_import() {
+    $this->deleteAll();
+    $this->join('sqlledger.product_id','id')->addField('sl_id');
+
    
     $q=$this->api->db2->dsql();
     $q->table('parts')
-      ->field($q->expr('1'),'business_id')
-      ->field($q->expr('(id-10000)'),'id')
+      ->field('id',null,'sl_id')
       ->field('partnumber',null,'productcode')
       ->field('description')
       ->field('unit')

@@ -11,6 +11,6 @@
 // jui - this is theme. Keep it jui unless you want to make your own theme
 
 include 'atk4/loader.php';
-$api=new Frontend('slimport');
+$api=new Frontend('slimport','slimport');
 $api->main();
 ?>

@@ -22,7 +22,7 @@ class Model_Contact extends Model_Table {
     $this->addField('taxnumber');
     $this->addField('iban');
     $this->addField('bic');
-    $this->hasOne('Employee','employee_id');
+    $this->hasOne('User');
     $this->hasOne('Batch')->system(true);
     $this->addField('startdate');
     $this->addField('enddate');
@@ -35,15 +35,14 @@ class Model_Contact extends Model_Table {
   }
 
 
-  function import() {  
-  
-    $this->dsql()->truncate();
-   
+  function sl_import() {  
+    $this->deleteAll();
+    $this->join('sqlledger.contact_id','id')->addField('sl_id');
+    
     $q=$this->api->db2->dsql();
     $q->table('customer')
-      ->field($q->expr('1'),'business_id')
-      ->field($q->expr('(id-10000)'),'id')
-      ->field($q->expr("'c'"),'type')
+      ->field('id',null,'sl_id')
+      ->field($q->expr("'ar'"),'type') // customer = AR
       ->field('customernumber',null,'number')
       ->field('name',null,'lastname')
       ->field('contact',null,'company')
@@ -54,21 +53,22 @@ class Model_Contact extends Model_Table {
       ->field('notes')
       ->field('terms')
       ->field('taxnumber')
-      ->field('iban')
-      ->field('bic')
-      ->field($q->expr('1'),'employee_id')
+//      ->field('iban')
+//      ->field('bic')
+      ->field($q->expr($this->api->auth->model->id),'user_id')
       ->field('startdate')
       ->field('enddate')
       ;
+      
+    
     foreach($q as $row) {
       $this->unload()->set($row)->save(); 
     }
 
     $q=$this->api->db2->dsql();
     $q->table('vendor')
-      ->field($q->expr('1'),'business_id')
-      ->field($q->expr('(id-10000)'),'id')
-      ->field($q->expr("'v'"),'type')
+      ->field('id',null,'sl_id')
+      ->field($q->expr("'ap'"),'type')
       ->field('vendornumber',null,'number')
       ->field('name',null,'company')
       ->field('contact',null,'lastname')
@@ -79,9 +79,9 @@ class Model_Contact extends Model_Table {
       ->field('notes')
       ->field('terms')
       ->field('taxnumber')
-      ->field('iban')
-      ->field('bic')
-      ->field($q->expr('1'),'employee_id')
+//      ->field('iban')
+//      ->field('bic')
+      ->field($q->expr($this->api->auth->model->id),'user_id')
       ->field('startdate')
       ->field('enddate')
       ;

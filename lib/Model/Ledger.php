@@ -12,19 +12,33 @@ class Model_Ledger extends Model_Table {
   }
 
 
-  function import() {
-   
+  function sl_import($trans_id) {
+    
+    $this->deleteAll();
+    
+    if(!isset($this->sl_chart)) {
+      $this->sl_chart=$this->add('Model_SqlledgerRef')->addCondition('chart_id','', $this->dsql->expr('is not null') );
+    }
+
     $q=$this->api->db2->dsql();
     $q->table('acc_trans')
-      ->field($q->expr('(trans_id-10000)'),'document_id')
-      ->field($q->expr('(chart_id-10000)'),'chart_id')
+      ->field('chart_id')
       ->field('amount')
       ->field('transdate')
       ->field('source',null,'reference')
+      ->where('trans_id',$trans_id)
       ;
-    $this->dsql()->truncate();
+    
     foreach($q as $row) {
-      $this->unload()->set($row)->save(); 
+      if($row['chart_id']) {
+        $row['chart_id']= $this->sl_chart->loadBy('sl_id',$row['chart_id'])->get('chart_id');
+        $this->unload()
+          ->set($row)
+          ->save();
+      } else {
+        print_r($row);
+        echo "no chart for this ledger";
+      }
     }
       
   }

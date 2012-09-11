@@ -20,7 +20,7 @@ class Model_Document extends Model_Table {
     $this->addField('notes');
     $this->addField('intnotes');
     $this->hasOne('Contact');
-    $this->hasOne('Employee','employee_id')->system(true);
+    $this->hasOne('User')->system(true);
     $this->hasOne('Batch')->system(true);
     $this->addField('bank_matches'); // room to list other references possible for bank recognition (invoice/order/cart)
     $this->addField('approved')->type('boolean')->editable(false);
@@ -45,75 +45,80 @@ class Model_Document extends Model_Table {
       $items->ledger();
     }
   }
-  
+  private function sl_import_save($q) {
+    foreach($q as $row) {
+      $this->unload()->set($row);
+      if($row['contact_id']) {
+        $contact_id= $this->sl->loadBy('sl_id',$row['contact_id'])->get('contact_id');
+        $this->set('contact_id',$contact_id);
+      }
+      $this->save();
+        
+      $this->ref('Item')->sl_import($row['sl_id']);
+      $this->ref('Ledger')->sl_import($row['sl_id']);
+    }
+  }
 
-  function import() {
-    $this->dsql()->truncate();
-   
+  function sl_import() {
+    $this->deleteAll();
+    $this->join('sqlledger.document_id','id')->addField('sl_id');
+    $user_id=$this->api->auth->model->id;
+    
     $q=$this->api->db2->dsql();
     $q->table('ap')
-      ->field($q->expr('1'),'business_id')
-      ->field($q->expr('(id-10000)'),'id')
+      ->field('id',null,'sl_id')
       ->field($q->expr("'pi'"),'type')
       ->field('invnumber',null,'number')
       ->field('ordnumber',null,'reference')
       ->field('transdate')
       ->field('curr',null,'currency')
-      ->field($q->expr('(vendor_id-10000)'),'contact_id')
-      ->field($q->expr('1'),'employee_id')
+      ->field('vendor_id',null,'contact_id')
+      ->field($q->expr($user_id),'user_id')
       ->field('approved')
       ;
-    foreach($q as $row) {
-      $this->unload()->set($row)->save(); 
-    }
+      
+    $this->sl=$this->add('Model_SqlledgerRef')->addCondition('contact_id','', $this->dsql->expr('is not null') );
+    
+    $this->sl_import_save($q);
 
     $q=$this->api->db2->dsql();
     $q->table('ar')
-      ->field($q->expr('1'),'business_id')
-      ->field($q->expr('(id-10000)'),'id')
+      ->field('id',null,'sl_id')
       ->field($q->expr("'si'"),'type')
       ->field('invnumber',null,'number')
       ->field('ordnumber',null,'reference')
       ->field('transdate')
       ->field('curr',null,'currency')
-      ->field($q->expr('(customer_id-10000)'),'contact_id')
-      ->field($q->expr('1'),'employee_id')
+      ->field('customer_id',null,'contact_id')
+      ->field($q->expr($user_id),'user_id')
       ->field('approved')
       ;
-    foreach($q as $row) {
-      $this->unload()->set($row)->save(); 
-    }
+    $this->sl_import_save($q);
     
     $q=$this->api->db2->dsql();
     $q->table('oe')
-      ->field($q->expr('1'),'business_id')
-      ->field($q->expr('(id-10000)'),'id')
+      ->field('id',null,'sl_id')
       ->field($q->expr("case when vendor_id>0 then 'po' else 'so' end"),'type')
       ->field('ordnumber',null,'number')
       ->field('transdate')
       ->field('curr',null,'currency')
-      ->field($q->expr('(customer_id-10000)'),'contact_id')
-      ->field($q->expr('1'),'employee_id')
+      ->field('customer_id',null,'contact_id')
+      ->field($q->expr($user_id),'user_id')
       ->field($q->expr('1'),'approved')
       ;
-    foreach($q as $row) {
-      $this->unload()->set($row)->save(); 
-    }
+    $this->sl_import_save($q);
 
     $q=$this->api->db2->dsql();
     $q->table('gl')
-      ->field($q->expr('1'),'business_id')
-      ->field($q->expr('(id-10000)'),'id')
+      ->field('id',null,'sl_id')
       ->field($q->expr("'gl'"),'type')
       ->field('reference',null,'number')
       ->field('transdate')
       ->field('curr',null,'currency')
-      ->field($q->expr('1'),'employee_id')
+      ->field($q->expr($user_id),'user_id')
       ->field('approved')
       ;
-    foreach($q as $row) {
-      $this->unload()->set($row)->save(); 
-    }
+    $this->sl_import_save($q);
 
   
     
