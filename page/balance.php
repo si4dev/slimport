@@ -17,7 +17,7 @@ class Page_Balance extends Page {
       ->field('description')
       ->field($q->expr('sum(if(amount<0,-amount,0))'),'debet') // debet
       ->field($q->expr('sum(if(amount>0,amount,0))'),'credit')  // credit
-      ->where('ledger.transdate','>=','2011-01-01')
+    //  ->where('ledger.transdate','>=','2011-01-01')
       ->where('ledger.transdate','<','2011-12-31')
       ->where('chart.business_id',$b->id)
   //    ->having('abs(sum(amount_credit))>',0.001)
@@ -66,8 +66,10 @@ class Page_Balance extends Page {
       }
     }
 
-
     $line=$this->add('Lister',null,'Line','Line');
+    
+    $line->addHook('formatRow',$this);
+  
     $line->setSource($result);
         
 
@@ -84,7 +86,17 @@ class Page_Balance extends Page {
       ;
       $c->setSource($result);
   }
+
+  function formatRow($line) {
+    if($line->current_row['chart_type']=='H') {
+      $line->current_row['context']='ui-widget-header';
+    } else {
+      $line->current_row['context']='';
+    }
+  }
+  
   function defaultTemplate() {
+    
       return array('page/balance');
   }
 }

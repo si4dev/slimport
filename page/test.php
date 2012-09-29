@@ -3,6 +3,20 @@ class page_test extends Page {
     function init(){
 
         parent::init();
+        
+        
+        
+        
+        echo 'tst';
+        
+        $l=$this->add('Model_Tst_Ledger')->load(8);
+        $m=$l->ref('Tst_Voucher_Contra');
+        $this->add('Grid')->setModel($m);
+          
+        
+        
+        
+        /*
         $page=$this;
 
         $form=$this->add('Form');
@@ -22,6 +36,7 @@ class page_test extends Page {
         if($form->isSubmitted()){
             $form2->js()->reload(array('id'=>$form->get('lastname')))->execute();
         }
+        */
     }
 }
 
