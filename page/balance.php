@@ -67,7 +67,7 @@ class Page_Balance extends Page {
     }
 
     $line=$this->add('Lister',null,'Line','Line');
-    
+
     $line->addHook('formatRow',$this);
   
     $line->setSource($result);
@@ -96,7 +96,6 @@ class Page_Balance extends Page {
   }
   
   function defaultTemplate() {
-    
       return array('page/balance');
   }
 }
