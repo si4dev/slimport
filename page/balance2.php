@@ -2,7 +2,7 @@
 class Page_Balance2 extends Page {
   function init() {
     parent::init();
-    
+
     
     $b=$this->api->business;
 
@@ -45,10 +45,11 @@ class Page_Balance2 extends Page {
 //    }
 
     $line=$this->add('Grid_Balance');
-    $model=$this->add('Model_Ledger2');
+      $line->addPaginator(500);
+    $model=$this->add('Model_Chart2');
     $model->addExtraFields();
-    $model->_dsql()->where('ledger.transdate','<','2011-12-31');
-    $model->_dsql()->limit('100');
+    $model->_dsql()->where('transdate','<','2011-12-31');
+//    $model->_dsql()->limit('1000');
     $line->setModel($model,array('acc_nr','description','chart_type','category','debet','credit','amount'));
   }
   

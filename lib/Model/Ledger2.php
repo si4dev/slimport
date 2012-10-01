@@ -3,6 +3,7 @@ class Model_Ledger2 extends Model_Table {
   public $table='ledger';
   function init() {
     parent::init();
+      //$this->debug();
     $this->hasOne('Document');
     $this->hasOne('Chart');
     $this->hasOne('Item');
@@ -16,6 +17,7 @@ class Model_Ledger2 extends Model_Table {
       $ch->addField('chart_type');
       $ch->addField('category');
       $ch->addField('description');
+      $ch->addField('business_id');
 
 //      $dc = $this->join('document');
 

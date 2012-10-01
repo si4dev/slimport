@@ -7,11 +7,13 @@
  * To change this template use File | Settings | File Templates.
  */
 class Grid_Balance extends Grid {
-    private $sub_total = 0;
+    private $sub_total = array();
+    private $sub_total_count = 0;
     function init() {
         parent::init();
         $this->addColumn('debet');
         $this->addColumn('credit');
+//        $this->addColumn('amount');
     }
     function renderRows() {
         $order=$this->addOrder();
@@ -24,8 +26,8 @@ class Grid_Balance extends Grid {
         parent::formatRow();
 
         // header & sub total
-        if ($this->current_row['category']=='L') {
-//        if ($this->current_row['chart-type']=='H') {
+//        if ($this->current_row['category']=='L') {
+        if ($this->current_row['chart_type']=='H') {
             $this->current_row_html['sub_total']=$this->getSubTotalHTML();
             $this->current_row_html['additional_header']=$this->getAdditionalHeader();
         } else {
@@ -42,7 +44,10 @@ class Grid_Balance extends Grid {
         }
 
         // sub total
-        $this->sub_total += $this->current_row['amount'];
+        if (isset($this->sub_total[$this->current_row['category']]))
+            $this->sub_total[$this->current_row['category']] += $this->current_row['amount'];
+        else
+            $this->sub_total[$this->current_row['category']] = $this->current_row['amount'];
     }
     function precacheTemplate(){
         $this->row_t->trySetHTML('additional_header','<?$additional_header?>');
@@ -50,8 +55,6 @@ class Grid_Balance extends Grid {
         parent::precacheTemplate();
     }
     function getAdditionalHeader(){
-        $st = $this->sub_total;
-        $this->sub_total = 0;
         return '
             <tr style="background-color:#F1F1F1;">
               <td colspan="8">
@@ -63,13 +66,20 @@ class Grid_Balance extends Grid {
             </tr>';
     }
     function getSubTotalHTML(){
-        $html = '
+
+        $t = '';
+        foreach($this->sub_total as $k => $v) {
+            $t .= ' [ ('.$k.') '.$v.' ] , ';
+        }
+
+        $html = ($this->sub_total_count > 0)? '
             <tr style="background-color:#FFFEEC;">
               <td colspan="8">
-                sub total = [ '. number_format($this->sub_total,2).' ]
+                sub total = '. $t .'
               </td>
-            </tr>';
-        $this->sub_total = 0;
+            </tr>':'';
+        $this->sub_total = array();
+        $this->sub_total_count++;
         return $html;
     }
     function defaultTemplate() {
