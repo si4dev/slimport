@@ -23,6 +23,7 @@ class Frontend extends ApiFrontend {
     $menu->addMenuItem('connect','Connect');
     $menu->addMenuItem('contact','Contact');
     $menu->addMenuItem('logout','Logout');
+	$menu->addMenuItem('chartaccount', 'chart of account');
 
     $this->dbConnect();
     
