@@ -10,7 +10,7 @@ class Page_Document extends Page {
    
   // f for form and m for model used for the main form / model of this page. Then easy to reuse page snippets
   $f=$this->add('Form');
-  $m=$this->api->business->ref('Document')->load($_GET['document']);
+  $m=$b->ref('Document')->load($_GET['document']);
   $f->setModel($m);
   
   
