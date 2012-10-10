@@ -18,7 +18,6 @@ class Frontend extends ApiFrontend {
 
     $menu = $this->add('Menu',null,'Menu');
     $menu->addMenuItem('documents','Documents');
-    $menu->addMenuItem('document','Document');
     $menu->addMenuItem('balance','Balance Sheet');
     $menu->addMenuItem('connect','Connect');
     $menu->addMenuItem('contact','Contact');

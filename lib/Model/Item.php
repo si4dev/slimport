@@ -5,7 +5,7 @@ class Model_Item extends Model_Table {
   function init() {
     parent::init();
     $this->hasOne('Document');
-    $this->hasOne('Product');
+    $this->hasOne('Product')->display(array('form'=>'autocomplete/basic'));
     $this->hasOne('Chart');
     $this->addField('description');
     $this->addField('serial');

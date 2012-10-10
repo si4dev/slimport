@@ -17,11 +17,13 @@ class Page_Document extends Page {
   // show the line items, so the products on the invoice/order/quote
   $this->add('H2')->set('Line Items');
   $item=$m->ref('Item');
+  
   $cItem=$this->add('CRUD');
   $cItem->setModel($item);
+  
   if( $cItem->grid ) {
     $cItem->grid->addFormatter('description','grid/inline');  
-    $cItem->grid->addFormatter('product','grid/inline')->editFields(array('product_id'));  
+    $cItem->grid->addFormatter('product','grid/inline')->editFields(array('product_id'));
     $cItem->grid->addFormatter('chart','grid/inline')->editFields(array('chart_id'));  
   }
 
