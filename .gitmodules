@@ -4,3 +4,6 @@
 [submodule "atk4-addons"]
 	path = atk4-addons
 	url = https://github.com/atk4/atk4-addons
+[submodule "addons/autocomplete"]
+	path = addons/autocomplete
+	url = https://github.com/atk4/autocomplete
