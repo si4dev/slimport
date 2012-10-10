@@ -10,6 +10,10 @@ class Frontend extends ApiFrontend {
 						)
 					))
 			->setParent($this->pathfinder->base_location);
+    
+    $this->addLocation('addons', 'addons');
+
+
 		$this->add('jUI');
 		$this->js()
 			->_load('atk4_univ')
