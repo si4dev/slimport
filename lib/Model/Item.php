@@ -9,7 +9,7 @@ class Model_Item extends Model_Table {
     $this->hasOne('Chart');
     $this->addField('description');
     $this->addField('serial');
-    $this->addField('quantity');
+    $this->addField('quantity')->defaultValue(1);
     $this->addField('price');
     $this->hasMany('Ledger');
   }
