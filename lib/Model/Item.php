@@ -10,7 +10,15 @@ class Model_Item extends Model_Table {
     $this->addField('description');
     $this->addField('serial');
     $this->addField('quantity')->defaultValue(1);
+	$this->addField('unit');
     $this->addField('price');
+	
+	$this->addExpression('Units')->set(function($m,$q){
+            return $q->expr('[f1]*[f2]')
+            ->setCustom('f1',$m->getElement('unit'))
+            ->setCustom('f2',$m->getElement('quantity'));
+            });
+			
     $this->hasMany('Ledger');
   }
 

@@ -16,11 +16,14 @@ class Page_Document extends Page {
   
   // show the line items, so the products on the invoice/order/quote
   $this->add('H2')->set('Line Items');
-  $item=$m->ref('Item');
+  $item=$m->ref('Item'); 
   
   $cItem=$this->add('CRUD');
   $cItem->setModel($item);
   
+  $sumUnits = $item->sum('Units')->getOne();
+  $this->add('Frame')->setTitle('Total of Units')->set($sumUnits);
+
   if( $cItem->grid ) {
     $cItem->grid->addFormatter('description','grid/inline');  
     $cItem->grid->addFormatter('product','grid/inline')->editFields(array('product_id'));
