@@ -13,10 +13,10 @@ class Model_Item extends Model_Table {
 	$this->addField('unit');
     $this->addField('price');
 	
-	$this->addExpression('Units')->set(function($m,$q){
+	$this->addExpression('Total')->set(function($m,$q){
             return $q->expr('[f1]*[f2]')
-            ->setCustom('f1',$m->getElement('unit'))
-            ->setCustom('f2',$m->getElement('quantity'));
+            ->setCustom('f1',$m->getElement('quantity'))
+            ->setCustom('f2',$m->getElement('price'));
             });
 			
     $this->hasMany('Ledger');
