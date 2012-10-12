@@ -21,15 +21,13 @@ class Page_Document extends Page {
   $cItem=$this->add('CRUD');
   $cItem->setModel($item);
   
-  $Total = $this->add('Frame')->setTitle('Total of Items')->set($item->sum('Total')->getOne());
+  $Total = $this->add('Frame')->setTitle('Total of Items')->set($item->sum('Total Price')->getOne());
   
   //ajax interaction to autofill description and price related to product
   if($cItem->form){
 	 $p = $cItem->form->getElement('product');
 	 $d= $cItem->form->getElement('description');
-	 $r = $cItem->form->getElement('price');
-	//$p->js('change', );
-	
+	 $r = $cItem->form->getElement('price');	
 	}
 	
 	$cItem->js('reload', $Total->js()->reload());
