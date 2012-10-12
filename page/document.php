@@ -27,7 +27,9 @@ class Page_Document extends Page {
   if($cItem->form){
 	 $p = $cItem->form->getElement('product');
 	 $d= $cItem->form->getElement('description');
-	 $r = $cItem->form->getElement('price');	
+	 $r = $cItem->form->getElement('price');
+
+		
 	}
 	
 	$cItem->js('reload', $Total->js()->reload());
@@ -59,10 +61,29 @@ class Page_Document extends Page {
     case 'si':
     case 'pi':
     case 'gl':
+	
       $this->add('H2')->set('Ledger');
+	  
+	  //TABS
+	  $tabs = $this->add('Tabs');
       $ledger=$m->ref('Ledger');
-      $cLedger=$this->add('CRUD');
-      $cLedger->setModel($ledger);
+		//tab CRUD Ledger
+		$cLedger=$this->add('CRUD');
+		$cLedger->setModel($ledger);
+	  
+		   if($cLedger->grid)
+		   {
+				$cLedger->grid->removeColumn('item'); //Hide item column
+		   }
+	  
+	    //tab Grid Ledger
+	     $gLedger = $this->add('Grid');
+	     $gLedger->setModel(clone($ledger));
+	     $gLedger->removeColumn('item'); //Hide item column
+	  	  	  
+	  $tabs->addTab('Ledger')->add($cLedger);
+	  $tabs->addTab('Ledger Records')->add($gLedger);	 
+    				
     }
   }
 }
