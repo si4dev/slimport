@@ -37,7 +37,5 @@ class Model_Product extends Model_Table {
       $this->unload()->set($row)->save(); 
     }
   }
-
-
-
+  
 }

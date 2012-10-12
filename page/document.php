@@ -21,6 +21,14 @@ class Page_Document extends Page {
   $cItem=$this->add('CRUD');
   $cItem->setModel($item);
   
+  //ajax interaction to autofill description and price related to product
+  if($cItem->form){
+	 $p = $cItem->form->getElement('product');
+	 $d= $cItem->form->getElement('description');
+	 $r = $cItem->form->getElement('price');
+	//$p->js('change', );
+  }
+  
   $sumUnits = $item->sum('Units')->getOne();
   $this->add('Frame')->setTitle('Total of Units')->set($sumUnits);
 
