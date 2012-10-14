@@ -25,17 +25,41 @@ class Page_Document extends Page {
   
   //ajax interaction to autofill description and price related to product
   if($cItem->form){
-	 $p = $cItem->form->getElement('product');
-	 $d= $cItem->form->getElement('description');
-	 $r = $cItem->form->getElement('price');
-
+	//get product code value $p->js()->val() - 
+	// ->send ajax request to load product description and price 
+	//->set form_fields with return.
+	
+	$f = $cItem->form;
+	$p = $f->getElement('product');
+	$d= $f->getElement('description');	
+	$r = $f->getElement('price');
+	
+	//send the ajax request 
+		$p->js('change', $f->js()->reload(array('product' => $p->js()->val())) );
+	
+	if($_GET['product']){
+		$product = $this->setModel('product');
+		$product->TryloadBy('productcode', $_GET['product']);
+		if($product->loaded()){
+		$desc = $product['description'];
+		$price = $product['sellprice'];
+		$p->set($_GET['product']);
+		$d->set($desc);
+		$r->set($price);
+		}
+	}
+	
+	 if($f->isSubmitted()){
+		
+		//update ledger to add the item
+		
+		
+	 }
 		
 	}
 	
 	$cItem->js('reload', $Total->js()->reload());
-	
-	
-  
+	 
   
 
   if( $cItem->grid ) {
@@ -76,7 +100,7 @@ class Page_Document extends Page {
 				$cLedger->grid->removeColumn('item'); //Hide item column
 		   }
 	  
-	    //tab Grid Ledger
+	    //tab Grid Ledger Records
 	     $gLedger = $this->add('Grid');
 	     $gLedger->setModel(clone($ledger));
 	     $gLedger->removeColumn('item'); //Hide item column
