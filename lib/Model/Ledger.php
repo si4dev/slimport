@@ -9,6 +9,8 @@ class Model_Ledger extends Model_Table {
     $this->addField('amount');
     $this->addField('transdate');
     $this->addField('reference');
+	$this->addField('calculated')->type('boolean')->defaultValue(false);
+	//ALTER TABLE `ledger` ADD `calculated` BOOLEAN NOT NULL
   }
 
 

@@ -34,33 +34,38 @@ class Page_Document extends Page {
 	$d= $f->getElement('description');	
 	$r = $f->getElement('price');
 	
-	//send the ajax request 
+	//send the ajax request and add values to the form fields
 		$p->js('change', $f->js()->reload(array('product' => $p->js()->val())) );
 	
 	if($_GET['product']){
 		$product = $this->setModel('product');
 		$product->TryloadBy('productcode', $_GET['product']);
 		if($product->loaded()){
-		$desc = $product['description'];
-		$price = $product['sellprice'];
-		$p->set($_GET['product']);
-		$d->set($desc);
-		$r->set($price);
-		}
+		  $desc = $product['description'];
+		  $price = $product['sellprice'];
+		  $p->set($_GET['product']);
+		  $d->set($desc);
+		  $r->set($price);
+	    }
 	}
 	
-	 if($f->isSubmitted()){
-		
-		//update ledger to add the item
-		
-		
-	 }
-		
-	}
+	
+	  if($f->isSubmitted()){
+			//add caculated ledger
+			$tledger = $m->ref('Ledger');
+			$tledger['document'] = $_GET['document'];
+			$tledger['chart_id'] = $_REQUEST['slimport_document_crud_form_chart_id'];
+			$tledger['item_id'] = '0';
+			$price = $_REQUEST['slimport_document_crud_form_quantity'] * $_REQUEST['slimport_document_crud_form_price'];
+			$tledger['amount'] = $price;
+			$tledger['calculated'] = true;
+			$tledger->save();		
+		}
+  }
 	
 	$cItem->js('reload', $Total->js()->reload());
-	 
-  
+	
+
 
   if( $cItem->grid ) {
     $cItem->grid->addFormatter('description','grid/inline');  
@@ -91,23 +96,29 @@ class Page_Document extends Page {
 	  //TABS
 	  $tabs = $this->add('Tabs');
       $ledger=$m->ref('Ledger');
+	  
+	  //tab Grid Ledger Records
+	     $gLedger = $this->add('Grid');
+	     $gLedger->setModel($ledger);
+	     $gLedger->removeColumn('item'); //Hide item column
+		 
+		 $Total->js('reload', $gLedger->js()->reload()); //refresh grid when item added
+		 
 		//tab CRUD Ledger
-		$cLedger=$this->add('CRUD');
-		$cLedger->setModel($ledger);
+		$clonedLedger = clone($ledger);
+		$clonedLedger->addCondition('calculated', 0);
+			$cLedger=$this->add('CRUD');
+			$cLedger->setModel($clonedLedger);
 	  
 		   if($cLedger->grid)
 		   {
 				$cLedger->grid->removeColumn('item'); //Hide item column
 		   }
 	  
-	    //tab Grid Ledger Records
-	     $gLedger = $this->add('Grid');
-	     $gLedger->setModel(clone($ledger));
-	     $gLedger->removeColumn('item'); //Hide item column
+	    
 	  	  	  
 	  $tabs->addTab('Ledger')->add($cLedger);
-	  $tabs->addTab('Ledger Records')->add($gLedger);	 
-    				
+	  $tabs->addTab('Ledger Records')->add($gLedger);				
     }
   }
 }
