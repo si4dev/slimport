@@ -21,7 +21,7 @@ class Page_Document extends Page {
   $cItem=$this->add('CRUD');
   $cItem->setModel($item);
   
-  $Total = $this->add('Frame')->setTitle('Total of Items')->set($item->sum('Total Price')->getOne());
+  $Total = $this->add('Frame')->setTitle('Total of Items')->set($item->sum('total_price')->getOne());
   
   //ajax interaction to autofill description and price related to product
   if($cItem->form){
@@ -61,6 +61,7 @@ class Page_Document extends Page {
 			$tledger['calculated'] = true;
 			$tledger->save();		
 		}
+		
   }
 	
 	$cItem->js('reload', $Total->js()->reload());
