@@ -12,14 +12,14 @@ class Model_Document extends Model_Table {
   function init() {
     parent::init();
     $this->hasOne('Business');
-    $this->addField('type')->enum(array('si','so','sq','pi','po','pq','gl'));
+    $this->addField('type');
     $this->addField('number');
     $this->addField('reference_document_id');
     $this->addField('transdate')->type('date');
     $this->addField('currency')->editable(false);
     $this->addField('notes');
     $this->addField('intnotes');
-    $this->hasOne('Contact');//->display(array('form'=>'autocomplete/basic'));
+    $this->hasOne('Contact');
     $this->hasOne('User')->system(true);
     $this->hasOne('Batch')->system(true);
     $this->addField('bank_matches'); // room to list other references possible for bank recognition (invoice/order/cart)

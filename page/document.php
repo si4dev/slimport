@@ -7,11 +7,37 @@ class Page_Document extends Page {
   
   $this->api->stickyGET('document');
   $this->add('P')->set('logged in as '.$this->api->auth->get('email'));
+  
+  $m=$b->ref('Document')->load($_GET['document']);
+  
+ 
+  //$this->add('Grid')->setModel('contact')->setType('ap');
    
   // f for form and m for model used for the main form / model of this page. Then easy to reuse page snippets
-  $f=$this->add('Form');
-  $m=$b->ref('Document')->load($_GET['document']);
+  $f=$this->add('Form');  
   $f->setModel($m);
+  $f->getElement('type')->set($_GET['type'])
+						->disable();
+  
+  if(isset($_GET['type'])){
+  
+	switch($_GET['type']){
+		case 'si':
+		case 'so':
+		case 'sq':
+		$f->getElement('contact_id')->setModel('contact')->setType('ar');
+		break;
+		case 'pi':
+		case 'po':
+		case 'pq':
+		$f->getElement('contact_id')->setModel('contact')->setType('ap');
+		break;
+	}
+  }
+  else
+  {
+	
+  }
   
   
   // show the line items, so the products on the invoice/order/quote

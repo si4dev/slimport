@@ -3,6 +3,12 @@ class Page_Documents extends Page {
   function init() {
     parent::init();
     
+	if(!isset($_GET['type'])){
+		$this->api->redirect('selectType');
+	}
+	else{
+	$type = $_GET['type'];
+	$this->api->stickyGET('type');
     
     $c=$this->add('Grid');
     $m=$this->api->business->ref('Document');//->addCondition('type','');
@@ -22,7 +28,8 @@ class Page_Documents extends Page {
       $c->js()->univ()->location($p)->execute();
       $this->api->redirect($p);
     }
+	
     
-    
+    }
   }
 }

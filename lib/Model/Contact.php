@@ -88,7 +88,9 @@ class Model_Contact extends Model_Table {
     foreach($q as $row) {
       $this->unload()->set($row)->save(); 
     }
-
-
+  }
+  
+  function setType($type){
+	 $this->addCondition('type', $type);
   }
 }
