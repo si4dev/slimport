@@ -19,7 +19,7 @@ class Model_Document extends Model_Table {
     $this->addField('currency')->editable(false);
     $this->addField('notes');
     $this->addField('intnotes');
-    $this->hasOne('Contact');
+    $this->hasOne('Contact');//->display(array('form'=>'autocomplete/basic'));
     $this->hasOne('User')->system(true);
     $this->hasOne('Batch')->system(true);
     $this->addField('bank_matches'); // room to list other references possible for bank recognition (invoice/order/cart)
