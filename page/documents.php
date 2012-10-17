@@ -11,7 +11,7 @@ class Page_Documents extends Page {
 	$this->api->stickyGET('type');
     
     $c=$this->add('Grid');
-    $m=$this->api->business->ref('Document');//->addCondition('type','');
+    $m=$this->api->business->ref('Document')->addCondition('type',$type);
     
     $m->getField('business')->visible(false);
     $c->setModel($m);
