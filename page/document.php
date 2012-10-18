@@ -20,7 +20,7 @@ class Page_Document extends Page {
 						->disable();
   
   if(isset($_GET['type'])){
-  
+  //loading contacts 'ar ' or 'ap' depending on type 
 	switch($_GET['type']){
 		case 'si':
 		case 'so':
@@ -32,6 +32,12 @@ class Page_Document extends Page {
 		case 'pq':
 		$f->getElement('contact_id')->setModel('contact')->setType('ap');
 		break;
+	}
+	if($_GET['type'] == 'si'){
+		$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ar');
+	}
+	if($_GET['type'] == 'pi'){
+		$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ap');
 	}
   }
   else
