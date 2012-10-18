@@ -10,6 +10,7 @@ class Frontend extends ApiFrontend {
 						)
 					))
 			->setParent($this->pathfinder->base_location);
+
     
     $this->addLocation('addons', 'addons');
 
