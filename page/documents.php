@@ -9,6 +9,16 @@ class Page_Documents extends Page {
 	else{
 	$type = $_GET['type'];
 	$this->api->stickyGET('type');
+	
+	//button ADD to add a document.
+	$f = $this->add('Form');
+	$add = $f->addSubmit()->setLabel('ADD document');
+	if($f->isSubmitted()){
+		$this->api->redirect('document_add');
+	}
+	
+	$this->add('hr');
+	
     
     $c=$this->add('Grid');
     $m=$this->api->business->ref('Document')->addCondition('type',$type);
@@ -31,5 +41,6 @@ class Page_Documents extends Page {
 	
     
     }
+	
   }
 }

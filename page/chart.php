@@ -7,12 +7,10 @@ Class Page_chart extends Page
 		parent::init();	
 		$this->add('H1')->set('Chart of accounts');
 		$this->add('hr');
-				
-		$mc = $this->add('Model_chart');			
-		$list = $this->add('Grid');
-		$c = $list->addColumn('Set Type');
-				
-		$list->setModel($mc);
+		
+		$mc = $this->add('Model_chart');		
+		$c = $this->add('CRUD');
+		$c->setModel($mc);				
 	}
 }
 ?>

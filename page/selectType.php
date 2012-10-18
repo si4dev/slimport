@@ -7,10 +7,10 @@ class Page_SelectType extends Page {
 		
 		$f = $this->add('Form');
 		
-		$f->addField('radio', 'type')->setValueList(
+		$r = $f->addField('radio', 'type')->setValueList(
 		array('si'=>'Sales Invoice', 'so'=> 'Sales Order', 'sq' => 'Sales quote', 'pi' => 'Purchase Invoice', 'po'=>'Purchase Order', 'pq'=> 'Purchase Quote', 'gl'=>'General Ledger', 'b'=>'Bank'));	
 
-		$f->addSubmit('Go');
+		$r->js('click', $f->js()->submit());
 		
 		if($f->isSubmitted()){
 			$type = $f->get('type');			
