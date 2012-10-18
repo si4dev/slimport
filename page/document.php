@@ -90,7 +90,7 @@ class Page_Document extends Page {
 			$tledger['item_id'] = '0';
 			$price = $_REQUEST['slimport_document_crud_form_quantity'] * $_REQUEST['slimport_document_crud_form_price'];
 			$tledger['amount'] = $price;
-			$tledger['calculated'] = true;
+			$tledger['item_derived'] = true;
 			$tledger->save();		
 		}
 		
@@ -139,7 +139,7 @@ class Page_Document extends Page {
 		 
 		//tab CRUD Ledger
 		$clonedLedger = clone($ledger);
-		$clonedLedger->addCondition('calculated', 0);
+		$clonedLedger->addCondition('item_derived', 0);
 			$cLedger=$this->add('CRUD');
 			$cLedger->setModel($clonedLedger);
 	  
