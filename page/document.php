@@ -86,10 +86,10 @@ class Page_Document extends Page {
 			//add caculated ledger
 			$tledger = $m->ref('Ledger');
 			$tledger['document'] = $_GET['document'];
-			$tledger['chart_id'] = $_REQUEST['slimport_document_crud_form_chart_id'];
+			$tledger['chart_id'] = $f->get('chart_id');
 			$tledger['item_id'] = '0';
-			$price = $_REQUEST['slimport_document_crud_form_quantity'] * $_REQUEST['slimport_document_crud_form_price'];
-			$tledger['amount'] = $price;
+			$amount = $f->get('quantity') * $f->get('price');
+			$tledger['amount'] = $amount;
 			$tledger['item_derived'] = true;
 			$tledger->save();		
 		}
@@ -151,7 +151,9 @@ class Page_Document extends Page {
 	    
 	  	  	  
 	  $tabs->addTab('Ledger')->add($cLedger);
-	  $tabs->addTab('Ledger Records')->add($gLedger);				
+	  $lr = $tabs->addTab('Ledger Records')->add($gLedger);	
+	  $cItem->js('reload', $lr->js()->reload());
+	  
     }
   }
 }
