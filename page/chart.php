@@ -10,7 +10,7 @@ Class Page_chart extends Page
 		
 		$mc = $this->add('Model_chart');		
 		$c = $this->add('CRUD');
-		$c->setModel($mc);				
+		$c->setModel($mc);
 	}
 }
 ?>

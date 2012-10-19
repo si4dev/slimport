@@ -9,27 +9,25 @@ class Page_document_add extends Page {
 		$f->addSubmit();
 		$f->getElement('type')->set($_GET['type'])->disable();
 		
+		$this->api->stickyGET('type');
+		
   //loading contacts 'ar ' or 'ap' depending on type 
 	switch($_GET['type']){
 		case 'si':
 		case 'so':
 		case 'sq':
 		$f->getElement('contact_id')->setModel('contact')->setType('ar');
+		$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ar');
 		break;
 		case 'pi':
 		case 'po':
 		case 'pq':
 		$f->getElement('contact_id')->setModel('contact')->setType('ap');
+		$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ap');
 		break;
 	}
 	
-	if($_GET['type'] == 'si'){
-		$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ar');
-	}
-	
-	if($_GET['type'] == 'pi'){
-		$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ap');
-	}
+
 		
 	if($f->isSubmitted()){
 		$md->save();

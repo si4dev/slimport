@@ -6,7 +6,7 @@ class Model_Chart extends Model_Table {
     $this->hasOne('Business'); 
     $this->addField('acc_nr');
     $this->addField('description');
-    $this->addField('type');
+    $this->addField('type')->enum(array('AR', 'AP'));
     $this->addExpression('name',"concat(acc_nr,' ',description)");
     $this->addField('chart_type'); // H=Header, A=Asset, E=Expense 
     $this->addField('category'); // Q=eQuity, L=Liability, A=Asset, E=Expense, I=Income 

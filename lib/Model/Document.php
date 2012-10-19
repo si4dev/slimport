@@ -12,8 +12,8 @@ class Model_Document extends Model_Table {
   function init() {
     parent::init();
     $this->hasOne('Business');
-    $this->addField('type');
-    $this->addField('number');
+    $this->addField('type');	
+	$this->addField('number');   
     $this->addField('reference_document_id');
     $this->addField('transdate')->type('date');
     $this->addField('currency')->editable(false);

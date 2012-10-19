@@ -135,8 +135,6 @@ class Page_Document extends Page {
 	     $gLedger->setModel($ledger);
 	     $gLedger->removeColumn('item'); //Hide item column
 		 
-		 $Total->js('reload', $gLedger->js()->reload()); //refresh grid when item added
-		 
 		//tab CRUD Ledger
 		$clonedLedger = clone($ledger);
 		$clonedLedger->addCondition('item_derived', 0);
@@ -152,7 +150,7 @@ class Page_Document extends Page {
 	  	  	  
 	  $tabs->addTab('Ledger')->add($cLedger);
 	  $lr = $tabs->addTab('Ledger Records')->add($gLedger);	
-	  $cItem->js('reload', $lr->js()->reload());
+	  $cItem->js('reload', $lr->js()->reload()); //refresh grid when item added
 	  
     }
   }

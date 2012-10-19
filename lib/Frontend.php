@@ -8,26 +8,42 @@ class Frontend extends ApiFrontend {
               'misc/lib',
               'filestore/lib',
 						)
+			//location for tree view multimenu addon
+					,'template'=> array(
+                        'tree/templates/default'
+                    )
 					))
 			->setParent($this->pathfinder->base_location);
 
     
     $this->addLocation('addons', 'addons');
-
-
+	
 		$this->add('jUI');
 		$this->js()
 			->_load('atk4_univ')
 			// ->_load('ui.atk4_expander')
 			;
 
-    $menu = $this->add('Menu',null,'Menu');
-    $menu->addMenuItem('documents','Documents');
+    //$menu = $this->add('Menu',null,'Menu');
+	$menu = $this->add("tree/MultiMenu", null, "Menu");
+    $docs = $menu->addMenuItem('documents','Documents');
     $menu->addMenuItem('balance','Balance Sheet');
     $menu->addMenuItem('connect','Connect');
     $menu->addMenuItem('contact','Contact');
     $menu->addMenuItem('logout','Logout');
 	$menu->addMenuItem('chart', 'chart of account');
+	
+	//documents submenus
+		//si, so, sq
+	$menu->addMenuItem('documents&&type=si', 'Sales invoices', $docs);
+	$menu->addMenuItem('documents&&type=so', 'Sales Order', $docs);
+	$menu->addMenuItem('documents&&type=sq', 'Sales Quote', $docs);
+		//pi, po, pq
+	$menu->addMenuItem('documents&&type=pi', 'Purchase Invoice', $docs);
+	$menu->addMenuItem('documents&&type=po', 'Purchase Order', $docs);
+	$menu->addMenuItem('documents&&type=pq', 'Purchase Quote', $docs);
+		//gl
+	$menu->addMenuItem('documents&&type=gl', 'General Ledger', $docs);
 
     $this->dbConnect();
     
