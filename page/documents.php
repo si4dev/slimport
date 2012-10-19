@@ -2,11 +2,13 @@
 class Page_Documents extends Page {
   function init() {
     parent::init();
-    
+	
+    /* replaced by tree menu...
 	if(!isset($_GET['type'])){
 		$this->api->redirect('selectType');
 	}
-	else{
+	*/
+	//else{
 	$type = $_GET['type'];
 	$this->api->stickyGET('type');
 	
@@ -40,7 +42,7 @@ class Page_Documents extends Page {
     }
 	
     
-    }
+    //}
 	
   }
 }

@@ -32,6 +32,7 @@ class Frontend extends ApiFrontend {
     $menu->addMenuItem('contact','Contact');
     $menu->addMenuItem('logout','Logout');
 	$menu->addMenuItem('chart', 'chart of account');
+	$menu->addMenuItem('invoiceSequence', 'Sequences for invoices');
 	
 	//documents submenus
 		//si, so, sq
