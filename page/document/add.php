@@ -2,16 +2,28 @@
 class Page_document_add extends Page {
   function init() {
     parent::init();
+		
+		$this->api->stickyGET('type');
 	
 		$f = $this->add('form');
 		$md = $this->add('Model_document');
 		$f->setModel($md);
-		$f->addSubmit();
+		
+		//type set by default
 		$f->getElement('type')->set($_GET['type'])->disable();
 		
-		$this->api->stickyGET('type');
+		//autonummer for invoices.. could be added as hook to model later ..
+		$num = $this->add('Model_invoiceSequence');
+		$number = $num->getNext($_GET['type']);
+		$f->getElement('number')->set($number)->disable();
 		
-  //loading contacts 'ar ' or 'ap' depending on type 
+		$f->addSubmit();
+		
+		
+		
+		
+		
+  //loading contacts and chart 'ar ' or 'ap' depending on type 
 	switch($_GET['type']){
 		case 'si':
 		case 'so':
