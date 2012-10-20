@@ -5,12 +5,12 @@ class Model_Item extends Model_Table {
   function init() {
     parent::init();
     $this->hasOne('Document');
-    $this->hasOne('Product')->display(array('form'=>'autocomplete/basic'));
-    $this->hasOne('Chart');
+    $this->hasOne('Product')->display(array('form'=>'autocomplete/basic'))->required('Product is required');
+    $this->hasOne('Chart');//->display(array('form'=>'autocomplete/basic'));
     $this->addField('description');
-    $this->addField('serial');
+    $this->addField('serial')->required('Serial is required');
     $this->addField('quantity')->defaultValue(1);
-	$this->addField('unit');
+	$this->addField('unit')->defaultValue(1);
     $this->addField('price');
 	
 	$this->addExpression('total_units')->set(function($m,$q){

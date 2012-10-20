@@ -11,6 +11,13 @@ Class Page_chart extends Page
 		$mc = $this->add('Model_chart');		
 		$c = $this->add('CRUD');
 		$c->setModel($mc);
+		
+		if($c->grid){
+			$c->grid->removeColumn('delete'); //hide delete column
+			$c->grid->addPaginator(10);
+		}
+		
+		
 	}
 }
 ?>

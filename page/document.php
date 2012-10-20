@@ -20,6 +20,9 @@ class Page_Document extends Page {
 						->disable();
   
   if(isset($_GET['type'])){
+	
+		$this->api->stickyGET('type');
+		
   //loading contacts 'ar ' or 'ap' depending on type 
 	switch($_GET['type']){
 		case 'si':
@@ -36,13 +39,9 @@ class Page_Document extends Page {
 	if($_GET['type'] == 'si'){
 		$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ar');
 	}
-	if($_GET['type'] == 'pi'){
+	elseif($_GET['type'] == 'pi'){
 		$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ap');
 	}
-  }
-  else
-  {
-	
   }
   
   
@@ -63,11 +62,15 @@ class Page_Document extends Page {
 	
 	$f = $cItem->form;
 	$p = $f->getElement('product');
-	$d= $f->getElement('description');	
+	$d= $f->getElement('description');
 	$r = $f->getElement('price');
+	
+	$f->getElement('chart_id')->getModel();
+	
 	
 	//send the ajax request and add values to the form fields
 		$p->js('change', $f->js()->reload(array('product' => $p->js()->val())) );
+
 	
 	if($_GET['product']){
 		$product = $this->setModel('product');
@@ -82,17 +85,26 @@ class Page_Document extends Page {
 	}
 	
 	
-	  if($f->isSubmitted()){
-			//add caculated ledger
-			$tledger = $m->ref('Ledger');
-			$tledger['document'] = $_GET['document'];
-			$tledger['chart_id'] = $f->get('chart_id');
-			$tledger['item_id'] = '0';
-			$amount = $f->get('quantity') * $f->get('price');
-			$tledger['amount'] = $amount;
-			$tledger['item_derived'] = true;
-			$tledger->save();		
+	 if($f->isSubmitted()){
+		//add caculated ledger
+		$tledger = $m->ref('Ledger');
+		$tledger['document'] = $_GET['document'];
+		$tledger['chart_id'] = $f->get('chart_id');
+		$tledger['item_id'] = '0';
+		$amount = $f->get('quantity') * $f->get('price');
+		$tledger['amount'] = $amount;
+		$tledger['item_derived'] = true;
+		$tledger->save();		
 		}
+	//implement addCondition "ar" or "ap" for chart
+	/*
+	if($_GET['type'] == 'si'){
+		$f->getElement('chart_id')->getModel()->addCondition('type', 'ar');
+	}
+	elseif($_GET['type'] == 'pi'){
+		$f->getElement('chart_id')->getModel()->addCondition('type', 'ap');
+	}
+	*/
 		
   }
 	
