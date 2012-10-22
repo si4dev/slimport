@@ -64,8 +64,7 @@ class Page_Document extends Page {
 	$p = $f->getElement('product');
 	$d= $f->getElement('description');
 	$r = $f->getElement('price');
-	
-	$f->getElement('chart_id')->getModel();
+	$tax_type = $f->getElement('tax_type');
 	
 	
 	//send the ajax request and add values to the form fields
@@ -76,11 +75,10 @@ class Page_Document extends Page {
 		$product = $this->setModel('product');
 		$product->TryloadBy('productcode', $_GET['product']);
 		if($product->loaded()){
-		  $desc = $product['description'];
-		  $price = $product['sellprice'];
 		  $p->set($_GET['product']);
-		  $d->set($desc);
-		  $r->set($price);
+		  $d->set($product['description']);
+		  $r->set($product['sellprice']);
+		  $tax_type->set($product['tax_type']);	  	
 	    }
 	}
 	
@@ -115,7 +113,9 @@ class Page_Document extends Page {
   if( $cItem->grid ) {
     $cItem->grid->addFormatter('description','grid/inline');  
     $cItem->grid->addFormatter('product','grid/inline')->editFields(array('product_id'));
-    $cItem->grid->addFormatter('chart','grid/inline')->editFields(array('chart_id'));  
+    $cItem->grid->addFormatter('chart','grid/inline')->editFields(array('chart_id')); 
+	$tax_type = $cItem->grid->getColumn('product_tax_type');
+	$tax_type->set($item['product']['tax_type']);
   }
 
   // show the transactions

@@ -17,6 +17,8 @@ class Model_Product extends Model_Table {
     //$this->addExpression('name',"concat(productcode,' ',description)");
 
       $this->addCondition('business_id',$this->api->business->id);
+	  
+	$this->addField('tax_type')->enum(array('21%','19%', '6%' , '0%'));
     }
 
 

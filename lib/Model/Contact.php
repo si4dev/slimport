@@ -19,6 +19,7 @@ class Model_Contact extends Model_Table {
     $this->addField('bcc');
     $this->addField('notes');
     $this->addField('terms')->type('int');
+	$this->addField('tax_location')->enum(array('1' =>'Nederland','2'=> 'Outside Nederland(Europe)','3' => 'Outside Europe'));
     $this->addField('taxnumber');
     $this->addField('iban');
     $this->addField('bic');
@@ -27,6 +28,7 @@ class Model_Contact extends Model_Table {
     $this->addField('startdate');
     $this->addField('enddate');
     $this->hasMany('Address');
+
 //    $this->addField('rule_arap_id');
 //    $this->addField('rule_tax_id');
 //    $this->hasMany('RuleChart','id','rule_arap_id');
