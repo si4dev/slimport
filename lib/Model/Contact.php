@@ -19,7 +19,12 @@ class Model_Contact extends Model_Table {
     $this->addField('bcc');
     $this->addField('notes');
     $this->addField('terms')->type('int');
-	$this->addField('tax_location')->enum(array('1' =>'Nederland','2'=> 'Outside Nederland(Europe)','3' => 'Outside Europe'));
+	
+	$this->hasOne('TaxLocation');
+	
+	//alternative to the model taxlocation
+	//$this->addField('tax_location')->setValueList(array('1' =>'Nederland','2'=> 'Outside Nederland(Europe)','3' => 'Outside Europe'));
+		
     $this->addField('taxnumber');
     $this->addField('iban');
     $this->addField('bic');
