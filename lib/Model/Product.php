@@ -9,6 +9,7 @@ class Model_Product extends Model_Table {
     $this->addField('unit');
     $this->addField('sellprice');
     $this->addField('active');
+	$this->addField('type');
     $this->hasOne('Rule','rule_tax_id');
     $this->addField('rule_pl_id');
     $this->hasMany('RuleChart','id','rule_pl_id');

@@ -32,7 +32,7 @@ class Frontend extends ApiFrontend {
     $menu->addMenuItem('contact','Contact');
     $menu->addMenuItem('logout','Logout');
 	$menu->addMenuItem('chart', 'chart of account');
-	$menu->addMenuItem('invoiceSequence', 'Sequences for invoices');
+	$menu->addMenuItem('sequence', 'Sequences');
 	$menu->addMenuItem('taxLocation', 'Admin of tax Locations');
 	$menu->addMenuItem('taxLedger', 'Tax Ledger');
 	

@@ -1,6 +1,6 @@
 <?php 
 
-Class Model_InvoiceSequence extends Model_Table {
+Class Model_Sequences extends Model_Table {
 		public $table='invoicesequence';
 		
 		function init(){
@@ -11,10 +11,10 @@ Class Model_InvoiceSequence extends Model_Table {
 		}
 		
 		function getNext($type){
-			$next = $this->loadAny()->addCondition('type', $type)->get('sequence');
+			$next = $this->loadBy('type', $type)->get('sequence');
 			$next++;
 			$this['sequence'] = $next;
-			$this->update();
+			$this->save();
 			return $next;
 		}
 		
