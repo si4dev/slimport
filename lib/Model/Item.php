@@ -11,9 +11,9 @@ class Model_Item extends Model_Table {
     $this->addField('serial')->required('Serial is required');
     $this->addField('quantity')->defaultValue(1);
 	$this->addField('unit')->defaultValue(1);
-    $this->addField('price');	
-	$this->addField('tax_type')->enum(array('21%','19%', '6%' , '0%'))->defaultValue('0%');
+    $this->addField('price');
 	
+	$this->hasOne('tax');
 	
 	$this->addExpression('total_units')->set(function($m,$q){
             return $q->expr('[f1]*[f2]')

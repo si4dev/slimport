@@ -20,12 +20,9 @@ class Model_Contact extends Model_Table {
     $this->addField('notes');
     $this->addField('terms')->type('int');
 	
-	$this->hasOne('TaxLocation');
+	$this->hasOne('tax');
 	
-	//alternative to the model taxlocation
-	//$this->addField('tax_location')->setValueList(array('1' =>'Nederland','2'=> 'Outside Nederland(Europe)','3' => 'Outside Europe'));
-		
-    $this->addField('taxnumber');
+	$this->addField('taxnumber');
     $this->addField('iban');
     $this->addField('bic');
     $this->hasOne('User');

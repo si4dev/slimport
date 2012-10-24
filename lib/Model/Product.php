@@ -4,22 +4,28 @@ class Model_Product extends Model_Table {
   public $title_field='productcode';
   function init() {
     parent::init();
+		
+	$this->addField('type')->enum(array('product', 'services'));
     $this->addField('productcode');
     $this->addField('description');
     $this->addField('unit');
     $this->addField('sellprice');
-    $this->addField('active');
-	$this->addField('type');
+	$this->hasOne('tax');
+	
+	
+    $this->addField('active');	
     $this->hasOne('Rule','rule_tax_id');
     $this->addField('rule_pl_id');
     $this->hasMany('RuleChart','id','rule_pl_id');
     $this->hasMany('RuleChart_Tax','id','rule_tax_id');
     $this->hasOne('Business');
     //$this->addExpression('name',"concat(productcode,' ',description)");
+	
+	
 
       $this->addCondition('business_id',$this->api->business->id);
 	  
-	$this->addField('tax_type')->enum(array('21%','19%', '6%' , '0%'));
+	
     }
 
 
