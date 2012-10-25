@@ -5,7 +5,7 @@ class Model_Product extends Model_Table {
   function init() {
     parent::init();
 		
-	$this->addField('type')->enum(array('product', 'services'));
+	$this->addField('type')->enum(array('product', 'service'));
     $this->addField('productcode');
     $this->addField('description');
     $this->addField('unit');
@@ -13,17 +13,21 @@ class Model_Product extends Model_Table {
 	$this->hasOne('tax');
 	
 	
-    $this->addField('active');	
+    
+	/*$this->addField('active');	
     $this->hasOne('Rule','rule_tax_id');
     $this->addField('rule_pl_id');
     $this->hasMany('RuleChart','id','rule_pl_id');
     $this->hasMany('RuleChart_Tax','id','rule_tax_id');
-    $this->hasOne('Business');
+	*/
+	
+	$this->hasOne('Business')->system(true);
+	
     //$this->addExpression('name',"concat(productcode,' ',description)");
 	
 	
 
-      $this->addCondition('business_id',$this->api->business->id);
+    $this->addCondition('business_id',$this->api->business->id);
 	  
 	
     }

@@ -34,6 +34,7 @@ class Frontend extends ApiFrontend {
 	$menu->addMenuItem('chart', 'chart of account');
 	$menu->addMenuItem('sequence', 'Sequences');
 	$menu->addMenuItem('taxLedger', 'Tax Ledger');
+	$menu->addMenuItem('product', 'Products');
 	
 	//documents submenus
 		//si, so, sq
