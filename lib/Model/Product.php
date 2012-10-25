@@ -8,13 +8,16 @@ class Model_Product extends Model_Table {
 	$this->addField('type')->enum(array('product', 'service'));
     $this->addField('productcode');
     $this->addField('description');
+	$this->addField('category');
     $this->addField('unit');
+	$this->addField('purchase_price');
     $this->addField('sellprice');
 	$this->hasOne('tax');
 	
 	
     
-	/*$this->addField('active');	
+	/*
+	$this->addField('active');	
     $this->hasOne('Rule','rule_tax_id');
     $this->addField('rule_pl_id');
     $this->hasMany('RuleChart','id','rule_pl_id');

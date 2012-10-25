@@ -1,7 +1,7 @@
 <?php 
 
 Class Model_Sequences extends Model_Table {
-		public $table='invoicesequence';
+		public $table='sequences';
 		
 		function init(){
 			parent::init();			

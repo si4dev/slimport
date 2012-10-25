@@ -13,7 +13,7 @@ class Page_document_add extends Page {
 		$f->getElement('type')->set($_GET['type'])->disable();
 		
 		//autonummer for invoices.. could be added as hook to model later ..
-		$num = $this->add('Model_invoiceSequence');
+		$num = $this->add('Model_Sequences');
 		$number = $num->getNext($_GET['type']);
 		$f->getElement('number')->set($number)->disable();
 		
