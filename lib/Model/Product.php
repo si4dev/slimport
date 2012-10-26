@@ -9,7 +9,7 @@ class Model_Product extends Model_Table {
     $this->addField('productcode');
     $this->addField('description');
 	$this->addField('category');
-    $this->addField('unit');
+    $this->addField('unit')->defaultValue(1);
 	$this->addField('purchase_price');
     $this->addField('sellprice');
 	$this->hasOne('tax');
@@ -31,6 +31,7 @@ class Model_Product extends Model_Table {
 	
 
     $this->addCondition('business_id',$this->api->business->id);
+	$this->addHook('beforeSave', $this);
 	  
 	
     }
@@ -52,6 +53,15 @@ class Model_Product extends Model_Table {
     foreach($q as $row) {
       $this->unload()->set($row)->save(); 
     }
+  }
+  
+  function beforeSave(){
+	$fpc = $this['productcode'];
+		if(!isset($fpc) || $fpc == '' || $fpc == null || empty($fpc)){					
+		  $sequence = $this->add('Model_Sequences');			
+		   $pcode = $sequence->getNext('product');
+		   $this['productcode'] = $pcode;
+		}
   }
   
 }
