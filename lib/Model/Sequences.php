@@ -7,7 +7,8 @@ Class Model_Sequences extends Model_Table {
 			parent::init();			
 			$this->addField('sequence');
 			$this->addField('type');//si or pi
-			
+			$this->hasOne('Business');
+			$this->addCondition('business_id', $this->api->business->id);			
 		}
 		
 		function getNext($type){

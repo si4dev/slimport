@@ -23,113 +23,67 @@ class Page_Document extends Page {
 	
 		$this->api->stickyGET('type');
 		
-  //loading contacts 'ar ' or 'ap' depending on type 
-	switch($_GET['type']){
-		case 'si':
-		case 'so':
-		case 'sq':
-		$f->getElement('contact_id')->setModel('contact')->setType('ar');
-		break;
-		case 'pi':
-		case 'po':
-		case 'pq':
-		$f->getElement('contact_id')->setModel('contact')->setType('ap');
-		break;
-	}
-	if($_GET['type'] == 'si'){
-		$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ar');
-	}
-	elseif($_GET['type'] == 'pi'){
-		$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ap');
-	}
+	  //loading contacts 'ar ' or 'ap' depending on type 
+		switch($_GET['type']){
+			case 'si':
+			case 'so':
+			case 'sq':
+			$f->getElement('contact_id')->setModel('contact')->setType('ar');
+			break;
+			case 'pi':
+			case 'po':
+			case 'pq':
+			$f->getElement('contact_id')->setModel('contact')->setType('ap');
+			break;
+		}
+		if($_GET['type'] == 'si'){
+			$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ar');
+		}
+		elseif($_GET['type'] == 'pi'){
+			$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ap');
+		}
   }
   
   
   // show the line items, so the products on the invoice/order/quote
   $this->add('H2')->set('Line Items');
-  $item=$m->ref('Item'); 
-  
+  $item=$m->ref('Item');   
   $cItem=$this->add('CRUD');
   $cItem->setModel($item);
   
   $Total = $this->add('Frame')->setTitle('Total of Items')->set($item->sum('total_price')->getOne());
   
-		  //ajax interaction to autofill description and price related to product
 		  if($cItem->form){
-			//get product code value $p->js()->val() - 
-			// ->send ajax request to load product description and price 
-			//->set form_fields with return.
-			
+			//ajax interaction to autofill description and price related to product
 			$f = $cItem->form;
 			$p = $f->getElement('product');
 			$d= $f->getElement('description');
 			$r = $f->getElement('price');
 			$tax = $f->getElement('tax_id');
 			
+			$p->js('change', $f->js()->reload(array('product' => $p->js()->val())) );
 			
-			//send the ajax request and add values to the form fields
-				$p->js('change', $f->js()->reload(array('product' => $p->js()->val())) );
-
-			
-			if($_GET['product']){
-				$product = $this->add('Model_product');
-				$product->TryloadBy('productcode', $_GET['product']);
-				if($product->loaded()){
-				  $p->set($_GET['product']);
-				  $d->set($product['description']);
-				  $r->set($product['sellprice']);
-				  
-				  //tax for item
-				  /*
-				  $contact = $this->add('Model_contact');
-				  $contact->tryLoadBy('id', $m['Contact']);
-				  if($contact->loaded()){
-					  if(isset($contact['tax']) && $contact['tax'] != 0)
-					  {
-						$tax->set($contact['tax']);
+				if($_GET['product']){
+					$product = $this->add('Model_product');
+					$product->TryloadBy('productcode', $_GET['product']);
+					
+					if($product->loaded()){
+					  $p->set($_GET['product']);
+					  $d->set($product['description']);
+					  $r->set($product['sellprice']);
+					  
+					  if(isset($product['tax_id']) && $product['tax_id'] != 0){
+							$tax->set($product['tax_id']);
 					  }
-				  }
-				  elseif(isset($product['tax_id']) && $product['tax_id'] != 0)
-				  */
-				  if(isset($product['tax_id']) && $product['tax_id'] != 0)
-				  {
-						$tax->set($product['tax_id']);
-				  }
-				}
+					}
+				}		
 			}
-	
-		//item_derived for ledger
-		 if($f->isSubmitted()){
-			$tledger = $m->ref('Ledger');
-			$tledger['document'] = $_GET['document'];
-			$tledger['chart_id'] = $f->get('chart_id');
-			$tledger['item_id'] = '0';
-			$amount = $f->get('quantity') * $f->get('price');
-			$tledger['amount'] = $amount;
-			$tledger['item_derived'] = true;
-			$tledger->save();		
-			}
-			
-	//implement addCondition "ar" or "ap" for chart
-	/*
-	if($_GET['type'] == 'si'){
-		$f->getElement('chart_id')->getModel()->addCondition('type', 'ar');
-	}
-	elseif($_GET['type'] == 'pi'){
-		$f->getElement('chart_id')->getModel()->addCondition('type', 'ap');
-	}
-	*/
-		
-  }
 	
 	$cItem->js('reload', $Total->js()->reload());
-	
-
 
   if( $cItem->grid ) {
     $cItem->grid->addFormatter('description','grid/inline');  
     $cItem->grid->addFormatter('product','grid/inline')->editFields(array('product_id'));
-    $cItem->grid->addFormatter('chart','grid/inline')->editFields(array('chart_id')); 
 	$tax_type = $cItem->grid->getColumn('product_tax_type');
 	$tax_type->set($item['product']['tax_type']);
   }
@@ -154,31 +108,28 @@ class Page_Document extends Page {
 	
       $this->add('H2')->set('Ledger');
 	  
-	  //TABS
+	  //TABS Ledger
 	  $tabs = $this->add('Tabs');
       $ledger=$m->ref('Ledger');
 	  
-	  //tab Grid Ledger Records
+	   //tab Grid Ledger Records
 	     $gLedger = $this->add('Grid');
 	     $gLedger->setModel($ledger);
 	     $gLedger->removeColumn('item'); //Hide item column
 		 
 		//tab CRUD Ledger
-		$clonedLedger = clone($ledger);
-		$clonedLedger->addCondition('item_derived', 0);
-			$cLedger=$this->add('CRUD');
-			$cLedger->setModel($clonedLedger);
-	  
-		   if($cLedger->grid)
-		   {
+		 $clonedLedger = clone($ledger);
+		 $clonedLedger->addCondition('item_derived', 0);
+		 $cLedger=$this->add('CRUD');
+		 $cLedger->setModel($clonedLedger);
+		 
+		   if($cLedger->grid){
 				$cLedger->grid->removeColumn('item'); //Hide item column
-		   }
-	  
-	    
+		   }	    
 	  	  	  
-	  $tabs->addTab('Ledger')->add($cLedger);
-	  $lr = $tabs->addTab('Ledger Records')->add($gLedger);	
-	  $cItem->js('reload', $lr->js()->reload()); //refresh grid when item added
+	    $tabs->addTab('Ledger')->add($cLedger);
+	    $ledgerRecords = $tabs->addTab('Ledger Records')->add($gLedger);	
+	    $cItem->js('reload', $ledgerRecords->js()->reload()); //refresh grid when item added
 	  
     }
   }

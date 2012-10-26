@@ -5,7 +5,7 @@ class Model_Product extends Model_Table {
   function init() {
     parent::init();
 		
-	$this->addField('type')->enum(array('product', 'service'));
+	$this->hasOne('product_type');
     $this->addField('productcode');
     $this->addField('description');
 	$this->addField('category');
@@ -26,7 +26,7 @@ class Model_Product extends Model_Table {
 	
 	$this->hasOne('Business')->system(true);
 	
-    //$this->addExpression('name',"concat(productcode,' ',description)");
+    $this->addExpression('name',"concat(productcode,' ',description)");
 	
 	
 

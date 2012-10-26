@@ -11,6 +11,7 @@ class Page_Product extends Page {
 		if($c->grid){
 			$c->grid->removeColumn('business');
 			$c->grid->addPaginator(10);
+			$c->grid->addQuickSearch(array('productcode', 'description'));
 		}
 	}
 }

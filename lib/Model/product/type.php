@@ -1,0 +1,1 @@
+<?php class Model_product_type extends Model_Table {	public $table='product_type';	public $title_field='type';	function init(){		parent::init();		$this->addField('type');		$this->addField('business_id');	}}
