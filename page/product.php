@@ -4,13 +4,29 @@ class Page_Product extends Page {
 	function init(){
 		parent::init();
 		
-		$p = $this->add('Model_product'); //$p for product
+		$p = $this->add('Model_product' ); //$p for product
 		
 		$c = $this->add('CRUD');
-		$c->setModel($p, array('productcode', 'product_type_id', 'description', 'unit', 'sellprice', 'tax_id') );
+		
+		$c->setModel($p, array('productcode', 'product_type', 'product_type_id', 'description', 'unit', 'purchase_price','sellprice', 'tax', 'tax_id'));
+		
 		if($c->grid){
 			$c->grid->addPaginator(10);
 			$c->grid->addQuickSearch(array('productcode', 'description'));
+			$c->grid->removeColumn('product_type_id');
+			$c->grid->removeColumn('tax_id');
 		}
+		
+		if($c->form){
+			$f = $c->form;
+			
+			
+			if($f->isSubmitted()){				
+				$tp = $f->getModel();
+				$tp['business_id'] = $this->api->business->id;		//set business id by default					
+				$tp->save();			
+			}
+		}
+		
 	}
 }

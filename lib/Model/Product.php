@@ -6,13 +6,13 @@ class Model_Product extends Model_Table {
     parent::init();		
 	
     $this->addField('productcode');
-	$this->hasOne('product_type')->mandatory(true);
+	$this->hasOne('product_type')->required('Please select a type');
     $this->addField('description');
 	$this->addField('category');
     $this->addField('unit')->defaultValue(1);
 	$this->addField('purchase_price');
     $this->addField('sellprice');
-	$this->hasOne('tax');
+	$this->hasOne('tax')->required('Please select the tax for this product');
 	
 	
     

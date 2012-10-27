@@ -5,6 +5,6 @@ Class Page_Sequence extends Page {
 	parent::init();
 	
 	$m = $this->add('Model_Sequences');
-	$this->add('CRUD')->setModel($m);	
+	$this->add('CRUD')->setModel($m, array('sequence', 'type'));	
 	}
 }
