@@ -33,7 +33,6 @@ Class Model_Tax extends Model_Table {
 	$this->addField('name'); 
 	$this->addField('rate'); // 21, 16, 6, 0   
 	$this->hasOne('Business')->system(true);
-	$this->addCondition('business_id', $this->api->business->id);
   }
 
 }

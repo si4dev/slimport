@@ -6,7 +6,7 @@ class Model_Product extends Model_Table {
     parent::init();		
 	
     $this->addField('productcode');
-	$this->hasOne('product_type');
+	$this->hasOne('product_type')->mandatory(true);
     $this->addField('description');
 	$this->addField('category');
     $this->addField('unit')->defaultValue(1);
