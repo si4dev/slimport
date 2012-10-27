@@ -3,10 +3,10 @@ class Model_Product extends Model_Table {
   public $table='product';
   public $title_field='productcode';
   function init() {
-    parent::init();
-		
-	$this->hasOne('product_type');
+    parent::init();		
+	
     $this->addField('productcode');
+	$this->hasOne('product_type');
     $this->addField('description');
 	$this->addField('category');
     $this->addField('unit')->defaultValue(1);
@@ -19,9 +19,10 @@ class Model_Product extends Model_Table {
 	
 	$this->addField('active');	
     $this->hasOne('Rule','rule_tax_id');
-    $this->addField('rule_pl_id');
+    //$this->addField('rule_pl_id');
     $this->hasMany('RuleChart','id','rule_pl_id');
     $this->hasMany('RuleChart_Tax','id','rule_tax_id');
+	
 	
 	
 	$this->hasOne('Business')->system(true);
