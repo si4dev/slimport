@@ -11,16 +11,11 @@ class Page_document_add extends Page {
 		
 		//type set by default
 		$f->getElement('type')->set($_GET['type'])->disable();
-		
-		//autonummer for invoices.. could be added as hook to model later ..
 		$num = $this->add('Model_Sequences');
 		$number = $num->getNext($_GET['type']);
 		$f->getElement('number')->set($number)->disable();
 		
-		$f->addSubmit();
-		
-		
-		
+		$f->addSubmit();		
 		
 		
   //loading contacts and chart 'ar ' or 'ap' depending on type 

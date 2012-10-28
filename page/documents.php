@@ -3,18 +3,12 @@ class Page_Documents extends Page {
   function init() {
     parent::init();
 	
-    /* replaced by tree menu...
-	if(!isset($_GET['type'])){
-		$this->api->redirect('selectType');
-	}
-	*/
-	//else{
 	$type = $_GET['type'];
 	$this->api->stickyGET('type');
 	
 	//button ADD to add a document.
 	$f = $this->add('Form');
-	$add = $f->addSubmit()->setLabel('ADD document');
+	$add = $f->addSubmit()->setLabel('ADD New Document');
 	if($f->isSubmitted()){
 		$this->api->redirect('document_add');
 	}
@@ -39,10 +33,6 @@ class Page_Documents extends Page {
         ));
       $c->js()->univ()->location($p)->execute();
       $this->api->redirect($p);
-    }
-	
-    
-    //}
-	
+    }	
   }
 }

@@ -3,12 +3,14 @@
 class Page_Product extends Page {
 	function init(){
 		parent::init();
+		$this->add('h1')->set('Manage products');
+		$this->add('hr');
 		
-		$p = $this->add('Model_product' ); //$p for product
+		$m = $this->add('Model_product' ); //$p for product
 		
 		$c = $this->add('CRUD');
 		
-		$c->setModel($p, array('productcode', 'product_type', 'product_type_id', 'description', 'unit', 'purchase_price','sellprice', 'tax', 'tax_id'));
+		$c->setModel($m, array('productcode', 'product_type', 'product_type_id', 'description', 'unit', 'purchase_price','sellprice', 'tax', 'tax_id'));
 		
 		if($c->grid){
 			$c->grid->addPaginator(10);
@@ -18,9 +20,7 @@ class Page_Product extends Page {
 		}
 		
 		if($c->form){
-			$f = $c->form;
-			
-			
+			$f = $c->form;			
 			if($f->isSubmitted()){				
 				$tp = $f->getModel();
 				$tp['business_id'] = $this->api->business->id;		//set business id by default					

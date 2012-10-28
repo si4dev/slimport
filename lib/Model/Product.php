@@ -3,37 +3,28 @@ class Model_Product extends Model_Table {
   public $table='product';
   public $title_field='productcode';
   function init() {
-    parent::init();		
+      parent::init();		
 	
-    $this->addField('productcode');
-	$this->hasOne('product_type')->required('Please select a type');
-    $this->addField('description');
-	$this->addField('category');
-    $this->addField('unit')->defaultValue(1);
-	$this->addField('purchase_price');
-    $this->addField('sellprice');
-	$this->hasOne('tax')->required('Please select the tax for this product');
-	
-	
-    
-	
-	$this->addField('active');	
-    $this->hasOne('Rule','rule_tax_id');
-    //$this->addField('rule_pl_id');
-    $this->hasMany('RuleChart','id','rule_pl_id');
-    $this->hasMany('RuleChart_Tax','id','rule_tax_id');
-	
-	
-	
-	$this->hasOne('Business')->system(true);
-	
-    $this->addExpression('name',"concat(productcode,' ',description)");
-	
-	
+		$this->addField('productcode');
+		$this->hasOne('product_type')->required('Please select a type')->caption('Type');
+		$this->addField('description');
+		$this->addField('category');
+		$this->addField('unit')->defaultValue(1);
+		$this->addField('purchase_price');
+		$this->addField('sellprice');
+		$this->hasOne('tax')->required('Please select the tax for this product');  	
+		$this->addField('active');	
+		$this->hasOne('Rule','rule_tax_id');
+		//$this->addField('rule_pl_id');
+		$this->hasMany('RuleChart','id','rule_pl_id');
+		$this->hasMany('RuleChart_Tax','id','rule_tax_id');
+		
+		$this->hasOne('Business')->system(true);
+		
+		$this->addExpression('name',"concat(productcode,' ',description)");
 
-    $this->addCondition('business_id',$this->api->business->id);
-	$this->addHook('beforeSave', $this);
-	  
+		$this->addCondition('business_id',$this->api->business->id);
+		$this->addHook('beforeSave', $this);  
 	
     }
 
