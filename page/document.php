@@ -61,7 +61,7 @@ class Page_Document extends Page {
 			$r = $f->getElement('price');
 			$tax = $f->getElement('tax_id');
 			
-			$p->js('change', $f->js()->reload(array('product' => $p->js()->val())) );
+			$p->js('change', $f->js()->reload(array('product' => $p->js()->val()))); 
 			
 				if($_GET['product']){
 					$product = $this->add('Model_product');

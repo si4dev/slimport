@@ -48,7 +48,6 @@ class Frontend extends ApiFrontend {
 	$menu->addMenuItem('documents&&type=pq', 'Purchase Quote', $docs);
 		//gl
 	$menu->addMenuItem('documents&&type=gl', 'General Ledger', $docs);
-
     $this->dbConnect();
     
     $this->add('Auth')->setModel('User');
