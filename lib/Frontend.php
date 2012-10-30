@@ -33,7 +33,7 @@ class Frontend extends ApiFrontend {
     $menu->addMenuItem('logout','Logout');
 	$menu->addMenuItem('chart', 'Charts');
 	$menu->addMenuItem('sequence', 'Sequences');
-	$menu->addMenuItem('producttype', 'Product types');
+	$menu->addMenuItem('group', 'Groups');
 	$menu->addMenuItem('chartlink', 'Chart Links');
 	$menu->addMenuItem('product', 'Products');
 	
@@ -52,6 +52,8 @@ class Frontend extends ApiFrontend {
     
     $this->add('Auth')->setModel('User');
     $this->auth->check();
+	
+	
     
     // memorize business or default to first business
     if($b=$this->api->recall('business_id')) {

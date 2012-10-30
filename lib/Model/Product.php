@@ -6,25 +6,24 @@ class Model_Product extends Model_Table {
       parent::init();		
 	
 		$this->addField('productcode');
-		$this->hasOne('product_type')->required('Please select a type')->caption('Type');
+		$this->hasOne('product_group')
+			->mandatory('Please select a type')
+			->caption('Group')
+			->emptyText(null);
 		$this->addField('description');
 		$this->addField('category');
 		$this->addField('unit')->defaultValue(1);
 		$this->addField('purchase_price');
 		$this->addField('sellprice');
-		$this->hasOne('tax')->required('Please select the tax for this product');  	
+		$this->hasOne('tax')->emptyText(null);  	
 		$this->addField('active');	
-		$this->hasOne('Rule','rule_tax_id');
-		//$this->addField('rule_pl_id');
 		$this->hasMany('RuleChart','id','rule_pl_id');
-		$this->hasMany('RuleChart_Tax','id','rule_tax_id');
-		
-		$this->hasOne('Business')->system(true);
-		
+		$this->hasMany('RuleChart_Tax','id','rule_tax_id');		
+		$this->hasOne('Business')->system(true);		
 		$this->addExpression('name',"concat(productcode,' ',description)");
 
 		$this->addCondition('business_id',$this->api->business->id);
-		$this->addHook('beforeSave', $this);  
+		$this->addHook('beforeSave', $this);
 	
     }
 

@@ -9,8 +9,7 @@ class Page_Document extends Page {
   $this->add('P')->set('logged in as '.$this->api->auth->get('email'));
   
   $m=$b->ref('Document')->load($_GET['document']);
-  
- 
+   
   //$this->add('Grid')->setModel('contact')->setType('ap');
    
   // f for form and m for model used for the main form / model of this page. Then easy to reuse page snippets
@@ -84,8 +83,9 @@ class Page_Document extends Page {
   if( $cItem->grid ) {
     $cItem->grid->addFormatter('description','grid/inline');  
     $cItem->grid->addFormatter('product','grid/inline')->editFields(array('product_id'));
-	$tax_type = $cItem->grid->getColumn('product_tax_type');
-	$tax_type->set($item['product']['tax_type']);
+	$cItem->grid->getColumn('product')->makeSortable();
+	//$tax_type = $cItem->grid->getColumn('product_tax_type');
+	//$tax_type->set($item['product']['tax_type']);
   }
 
   // show the transactions

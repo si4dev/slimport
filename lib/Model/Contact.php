@@ -6,7 +6,7 @@ class Model_Contact extends Model_Table {
     
     $this->hasOne('Business');
     $this->addField('number');
-    $this->addField('type');
+    $this->hasOne('contact_group')->caption('Group');
     $this->addField('firstname');
     $this->addField('middlename');
     $this->addField('lastname');

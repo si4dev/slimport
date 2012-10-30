@@ -20,7 +20,8 @@ class Page_Product extends Page {
 		}
 		
 		if($c->form){
-			$f = $c->form;			
+			$f = $c->form;
+			
 			if($f->isSubmitted()){				
 				$tp = $f->getModel();
 				$tp['business_id'] = $this->api->business->id;		//set business id by default					

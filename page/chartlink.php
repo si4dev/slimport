@@ -17,8 +17,6 @@ class Page_chartlink extends Page {
 		    $m['business_id'] = $this->api->business->id;
 			$m->save();
 			}
-		}
-
-		
+		}		
 	}
 }

@@ -6,7 +6,7 @@ class Model_Item extends Model_Table {
     parent::init();
     $this->hasOne('Document');
     $this->hasOne('Product')->display(array('form'=>'autocomplete/basic'))->required('Product is required');
-    $this->hasOne('Chart_link');
+    $this->hasOne('Chart_link')->system(true);
     $this->addField('description');
     $this->addField('serial')->required('Serial is required');
     $this->addField('quantity')->defaultValue(1);
@@ -138,6 +138,8 @@ class Model_Item extends Model_Table {
       $this->unload()->set($row)->save(); 
     }
 
+  }
+  
   }
 
 
