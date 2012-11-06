@@ -60,9 +60,21 @@ class Page_Document extends Page {
 			$r = $f->getElement('price');
 			$tax = $f->getElement('tax_id');
 			
-			$p->js('change', $f->js()->reload(array('product' => $p->js()->val()))); 
 			
-				if($_GET['product']){
+			$p->js('change')->univ()->ajaxec($this->api->getDestinationURL(),array('product' =>$p->js()->val()) );
+			// $p->js('change', $f->js()->reload(array('product' => $p->js()->val()))); 
+			
+				if($_POST['product']){
+					$product = $this->add('Model_product');
+					$product->TryloadBy('productcode', $_POST['product']);
+										
+					$this->js(null, array(
+					    $d->js()->val($product['description']),
+						$r->js()->val($product['sellprice']),
+						$tax->js()->val($product['tax_id'])
+					
+					))->execute();
+					/* OLD autofill 
 					$product = $this->add('Model_product');
 					$product->TryloadBy('productcode', $_GET['product']);
 					
@@ -73,10 +85,10 @@ class Page_Document extends Page {
 					  
 					  if(isset($product['tax_id']) && $product['tax_id'] != 0){
 							$tax->set($product['tax_id']);
-					  }
+					  } */
 					}
-				}		
-			}
+				} 		
+			
 	
 	$cItem->js('reload', $Total->js()->reload());
 

@@ -95,6 +95,6 @@ class Model_Contact extends Model_Table {
   }
   
   function setType($type){
-	 $this->addCondition('type', $type);
+	 $this->addCondition('contact_group', $type);
   }
 }
