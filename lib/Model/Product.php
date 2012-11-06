@@ -6,7 +6,7 @@ class Model_Product extends Model_Table {
       parent::init();		
 	
 		$this->addField('productcode');
-		$this->hasOne('product_group')
+		$this->hasOne('ProductGroup')
 			->mandatory('Please select a type')
 			->caption('Group')
 			->emptyText(null);
