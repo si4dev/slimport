@@ -14,6 +14,12 @@ class Frontend extends ApiFrontend {
                     )
 					))
 			->setParent($this->pathfinder->base_location);
+		//superfish
+		$this->addLocation('templates/custom', array(
+			'css' => 'css',
+			
+			))->setParent($this->pathfinder->base_location);
+
 
     
     $this->addLocation('addons', 'addons');
@@ -24,20 +30,24 @@ class Frontend extends ApiFrontend {
 			// ->_load('ui.atk4_expander')
 			;
 
-		$this->js()->_load('persomenu');
+		$this->js()->_css('perso');
+
 
     //$menu = $this->add('Menu',null,'Menu');
+	
+
 	$menu = $this->add("tree/MultiMenu", null, "Menu");
     $docs = $menu->addMenuItem('documents','Documents');
+    
     $menu->addMenuItem('balance','Balance Sheet');
     $menu->addMenuItem('connect','Connect');
-    $menu->addMenuItem('contact','Contact');
-    $menu->addMenuItem('logout','Logout');
+    $menu->addMenuItem('contact','Contact');   
 	$menu->addMenuItem('chart', 'Charts');
 	$menu->addMenuItem('sequence', 'Sequences');
 	$menu->addMenuItem('group', 'Groups');
 	$menu->addMenuItem('chartlink', 'Chart Links');
 	$menu->addMenuItem('product', 'Products');
+	$menu->addMenuItem('logout','Logout');
 	
 	//documents submenus
 		//si, so, sq
@@ -77,3 +87,4 @@ class Frontend extends ApiFrontend {
     */
     }
 }
+

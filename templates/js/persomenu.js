@@ -1,1 +1,0 @@
-	$('#persomenu').menu({ icons: { submenu: "ui-icon-circle-triangle-e" } });
