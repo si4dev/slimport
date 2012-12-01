@@ -24,6 +24,8 @@ class Frontend extends ApiFrontend {
 			// ->_load('ui.atk4_expander')
 			;
 
+		$this->js()->_load('persomenu');
+
     //$menu = $this->add('Menu',null,'Menu');
 	$menu = $this->add("tree/MultiMenu", null, "Menu");
     $docs = $menu->addMenuItem('documents','Documents');

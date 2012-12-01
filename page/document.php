@@ -54,7 +54,9 @@ class Page_Document extends Page {
   
 		  if($cItem->form){
 			//ajax interaction to autofill description and price related to product
-			$f = $cItem->form;
+			
+			$f = $cItem->form;					
+					
 			$p = $f->getElement('product');
 			$d= $f->getElement('description');
 			$r = $f->getElement('price');
