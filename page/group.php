@@ -11,7 +11,7 @@ class Page_group extends Page {
 			$c->setModel($cg);
 		
 		$this->add('h3')->set("Product Group");
-			$pg = $this->add('Model_product_group'); //$pg for product group
+			$pg = $this->add('Model_ProductGroup'); //$pg for product group
 			$p = $this->add('CRUD');
 			$p->setModel($pg);
 			

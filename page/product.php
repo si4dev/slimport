@@ -21,6 +21,8 @@ class Page_Product extends Page {
 		
 		if($c->form){
 			$f = $c->form;
+
+			
 			
 			if($f->isSubmitted()){				
 				$tp = $f->getModel();

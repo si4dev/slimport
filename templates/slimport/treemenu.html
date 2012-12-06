@@ -1,14 +1,6 @@
 
-	<ul id="persomenu">
-	<li>
-	<div id="<?$_name?>" class="tree">
-		<li>
-		<?item?><a href="<?$page?>" class="<?$class?>"><?$title?></a> <?$Content?><?/item?>
-		</li>
-	</div>
-	</li>
-	</ul>
-<script type="text/javascript">
-	$('#persomenu').menu({ icons: { submenu: "ui-icon-circle-triangle-e" } });
-</script>
-<div>
+	<ul id="<?$_name?>" class="tree">
+		<?item?>				
+		<li class="menu_item"><a href="<?$page?>" class="<?$class?>" ><?$title?></a> <?$Content?> </li>
+		<?/item?>				
+	</ul>	

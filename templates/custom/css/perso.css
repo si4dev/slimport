@@ -1,0 +1,38 @@
+#slimport_tree_multimenu_view li{
+	display:block;
+	float:left;
+	margin:2px;
+}
+#slimport_tree_multimenu_view li a{
+	text-decoration:none;
+	display:block;
+	font-size:bold;
+	background:#a7a7a7;
+	color:white;
+	font-weight:bold;
+	padding:5px;
+
+}
+
+#slimport_tree_multimenu_view li a:hover{
+	background:#484948;
+}
+
+#slimport_tree_multimenu_view li ul{
+	display:none;
+	width:150px;
+	margin-left:-20px;
+	border: none;
+	position:fixed;
+	top:65px;
+	left:325px;
+}
+
+#slimport_tree_multimenu_view li ul li{
+	display:block;
+	margin-top:5px;	
+}
+
+#slimport_tree_multimenu_view li:hover ul{
+	display:block;
+}
