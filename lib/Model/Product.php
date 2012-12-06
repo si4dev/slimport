@@ -1,11 +1,11 @@
 <?php
 class Model_Product extends Model_Table {
   public $table='product';
-  public $title_field='productcode';
+  public $title_field='product_code';
   function init() {
       parent::init();		
 	
-		$this->addField('productcode');
+		$this->addField('product_code');
 		$this->hasOne('product_group')
 			->mandatory('Please select a type')
 			->caption('Group')
@@ -14,17 +14,17 @@ class Model_Product extends Model_Table {
 		$this->addField('category');
 		$this->addField('unit')->defaultValue(1);
 		$this->addField('purchase_price');
-		$this->addField('sellprice');
+		$this->addField('sell_price');
 		$this->hasOne('tax')->emptyText(null);  	
 		$this->addField('active');	
-		$this->hasMany('RuleChart','id','rule_pl_id');
-		$this->hasMany('RuleChart_Tax','id','rule_tax_id');		
-		$this->hasOne('Business')->system(true);		
-		$this->addExpression('name',"concat(productcode,' ',description)");
+		$this->addExpression('name',"concat(product_code,' ',description)");
 
-		$this->addCondition('business_id',$this->api->business->id);
 		$this->addHook('beforeSave', $this);
 	
+    $group=$this->join('product_group');
+    $group->hasOne('Business')->system(true);
+    $group->addField('Type');
+		$this->addCondition('business_id',$this->api->business->id);
     }
 
 
@@ -36,10 +36,10 @@ class Model_Product extends Model_Table {
     $q=$this->api->db2->dsql();
     $q->table('parts')
       ->field('id',null,'sl_id')
-      ->field('partnumber',null,'productcode')
+      ->field('partnumber',null,'product_code')
       ->field('description')
       ->field('unit')
-      ->field('sellprice')
+      ->field('sell_price')
       ;
     foreach($q as $row) {
       $this->unload()->set($row)->save(); 
@@ -47,11 +47,11 @@ class Model_Product extends Model_Table {
   }
   
   function beforeSave(){
-	$fpc = $this['productcode'];
+	$fpc = $this['product_code'];
 		if(!isset($fpc) || $fpc == '' || $fpc == null || empty($fpc)){					
 		  $sequence = $this->add('Model_Sequences');			
 		   $pcode = $sequence->getNext('product');
-		   $this['productcode'] = $pcode;
+		   $this['product_code'] = $pcode;
 		}
   }
   

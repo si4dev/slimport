@@ -4,7 +4,7 @@ class Model_Contact extends Model_Table {
   function init() {
     parent::init();
     
-    $this->hasOne('Business');
+   
     $this->addField('number');
     $this->hasOne('contact_group')->caption('Group');
     $this->addField('firstname');
@@ -31,10 +31,10 @@ class Model_Contact extends Model_Table {
     $this->addField('enddate');
     $this->hasMany('Address');
 
-//    $this->addField('rule_arap_id');
-//    $this->addField('rule_tax_id');
-//    $this->hasMany('RuleChart','id','rule_arap_id');
-//    $this->hasMany('RuleChart_Tax','id','rule_tax_id');
+    $group=$this->join('contact_group');
+    $group->hasOne('Business');
+    $group->addField('type');
+
     $this->addCondition('business_id', $this->api->business->id);
   }
 

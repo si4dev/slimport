@@ -35,7 +35,7 @@ class Controller_Connect_Prestashop extends AbstractController {
           ->set('company',$address['company'])
           ->set('connect_id',$this->model->id)
           ->set('rule_arap_id',6)
-          ->set('rule_tax_id',1)
+          ->set('rule_tax_id',1) // to be phased out... probably need tax_id
           ->set('employee_id',1)
           ;
       $contact->getElement('terms')->defaultValue(14);
@@ -68,10 +68,10 @@ class Controller_Connect_Prestashop extends AbstractController {
       $item=$document->ref('Item');
 
       foreach($shopitems as $shopitem) {
-        $product->tryLoadBy('productcode',$shopitem['product_reference'])
+        $product->tryLoadBy('product_code',$shopitem['product_reference'])
             ->set('description',$shopitem['product_name'])
-            ->set('sellprice',round($shopitem['price'] / $order['conversion_rate'],2))
-            ->set('rule_tax_id',3)
+            ->set('sell_price',round($shopitem['price'] / $order['conversion_rate'],2))
+            ->set('rule_tax_id',3) // to be phased out... probably need tax_id
             ->set('rule_pl_id',4)
             ->save();
         $item->tryLoadBy('product_id',$product->id)

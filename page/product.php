@@ -10,11 +10,11 @@ class Page_Product extends Page {
 		
 		$c = $this->add('CRUD');
 		
-		$c->setModel($m, array('productcode', 'product_type', 'product_type_id', 'description', 'unit', 'purchase_price','sellprice', 'tax', 'tax_id'));
+		$c->setModel($m, array('product_code', 'product_type', 'product_type_id', 'description', 'unit', 'purchase_price','sell_price', 'tax', 'tax_id'));
 		
 		if($c->grid){
 			$c->grid->addPaginator(10);
-			$c->grid->addQuickSearch(array('productcode', 'description'));
+			$c->grid->addQuickSearch(array('product_code', 'description'));
 			$c->grid->removeColumn('product_type_id');
 			$c->grid->removeColumn('tax_id');
 		}

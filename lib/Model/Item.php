@@ -118,7 +118,7 @@ class Model_Item extends Model_Table {
       ->field('parts_id',null,'product_id')
       ->field('description')
       ->field('qty',null,'quantity')
-      ->field('sellprice',null,'price')
+      ->field('sell_price',null,'price')
       ->where('trans_id',$trans_id)
       ;
     foreach($q as $row) {

@@ -66,22 +66,22 @@ class Page_Document extends Page {
 			
 				if($_POST['product']){
 					$product = $this->add('Model_product');
-					$product->TryloadBy('productcode', $_POST['product']);
+					$product->TryloadBy('product_code', $_POST['product']);
 										
 					$this->js(null, array(
 					    $d->js()->val($product['description']),
-						$r->js()->val($product['sellprice']),
+						$r->js()->val($product['sell_price']),
 						$tax->js()->val($product['tax_id'])
 					
 					))->execute();
 					/* OLD autofill 
 					$product = $this->add('Model_product');
-					$product->TryloadBy('productcode', $_GET['product']);
+					$product->TryloadBy('product_code', $_GET['product']);
 					
 					if($product->loaded()){
 					  $p->set($_GET['product']);
 					  $d->set($product['description']);
-					  $r->set($product['sellprice']);
+					  $r->set($product['sell_price']);
 					  
 					  if(isset($product['tax_id']) && $product['tax_id'] != 0){
 							$tax->set($product['tax_id']);
