@@ -23,24 +23,9 @@ class Page_Document extends Page {
 		$this->api->stickyGET('type');
 		
 	  //loading contacts 'ar ' or 'ap' depending on type 
-		switch($_GET['type']){
-			case 'si':
-			case 'so':
-			case 'sq':
-			$f->getElement('contact_id')->setModel('contact')->setType('ar');
-			break;
-			case 'pi':
-			case 'po':
-			case 'pq':
-			$f->getElement('contact_id')->setModel('contact')->setType('ap');
-			break;
-		}
-		if($_GET['type'] == 'si'){
-			$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ar');
-		}
-		elseif($_GET['type'] == 'pi'){
-			$f->getElement('chart_against_id')->getModel()->addCondition('type', 'ap');
-		}
+    $contact=$f->getElement('contact_id');
+    $contact->setModel('contact')->setType( $m->get('contact_type') );
+ //   if(!$m->get('contact_type')) $f->getElement('contact')->hidden(true);
   }
   
   

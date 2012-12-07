@@ -11,8 +11,6 @@ class Model_Document extends Model_Table {
   public $title_field='number';
   function init() {
     parent::init();
-    $this->hasOne('Business');
-    $this->addField('type');	
 	$this->addField('number');   
     $this->addField('reference_document_id');
     $this->addField('transdate')->type('date');
@@ -24,18 +22,23 @@ class Model_Document extends Model_Table {
     $this->hasOne('Batch')->system(true);
     $this->addField('bank_matches'); // room to list other references possible for bank recognition (invoice/order/cart)
     $this->addField('approved')->type('boolean')->editable(false);
-    $this->hasOne('Chart','chart_against_id'); // for SI (sales invoice) it's AR, for PI it's AP, bank is 
-    $this->addField('rule_notax_id'); // rule out some taxes, so US customer should not pay 19%/6%/0% tax
-    $this->hasMany('RuleChart','id','rule_notax_id');
     
 
 //    $this->addField('rule_arap_id');
 //    $this->hasMany('RuleChart','id','rule_arap_id');
 
+    $group=$this->join('document_group');
+    $group->hasOne('Business');
+    $group->addField('type');
+    $group->addField('contact_type')->hidden(true);	
+
 
     $this->hasMany('Item');
     $this->hasMany('Ledger');
     $this->hasMany('Transaction');
+    
+    
+    
   }
 
   function ledger() {

@@ -60,6 +60,7 @@ class Frontend extends ApiFrontend {
 	$menu->addMenuItem('documents&&type=pq', 'Purchase Quote', $docs);
 		//gl
 	$menu->addMenuItem('documents&&type=gl', 'General Ledger', $docs);
+	$menu->addMenuItem('documents&&type=b', 'Bank', $docs);
     $this->dbConnect();
     
     $this->add('Auth')->setModel('User');
@@ -75,6 +76,11 @@ class Frontend extends ApiFrontend {
       $this->api->memorize('business_id',$this->api->business->id);
     }
   
+  
+    $pp=$this->api->add('P',null,'UserInfo');
+    $pp->add('Text')->set('user: '.$this->auth->model->get('name'));
+    $pp->add('HTML')->set('<br/>');
+    $pp->add('Text')->set('business: '.$this->api->business->get('name'));
 	}
   
     function page_index($page){
