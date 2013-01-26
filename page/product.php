@@ -3,14 +3,14 @@
 class Page_Product extends Page {
 	function init(){
 		parent::init();
-		$this->add('h1')->set('Manage products');
-		$this->add('hr');
+		$this->add('H1')->set('Manage products');
+		$this->add('HR');
 		
-		$m = $this->add('Model_product' ); //$p for product
+		$m = $this->add('Model_Product' ); //$p for product
 		
 		$c = $this->add('CRUD');
 		
-		$c->setModel($m, array('productcode', 'product_type', 'product_type_id', 'description', 'unit', 'purchase_price','sellprice', 'tax', 'tax_id'));
+		$c->setModel($m, array('productcode', 'product_type', 'product_type_id', 'description', 'unit', 'purchase_price','sellprice', 'Tax', 'tax_id'));
 		
 		if($c->grid){
 			$c->grid->addPaginator(10);

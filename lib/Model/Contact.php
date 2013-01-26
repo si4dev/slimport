@@ -6,7 +6,7 @@ class Model_Contact extends Model_Table {
     
     $this->hasOne('Business');
     $this->addField('number');
-    $this->hasOne('contact_group')->caption('Group');
+    $this->hasOne('Contact_Group')->caption('Group');
     $this->addField('firstname');
     $this->addField('middlename');
     $this->addField('lastname');
@@ -20,7 +20,7 @@ class Model_Contact extends Model_Table {
     $this->addField('notes');
     $this->addField('terms')->type('int');
 	
-	$this->hasOne('tax');
+	$this->hasOne('Tax');
 	
 	$this->addField('taxnumber');
     $this->addField('iban');

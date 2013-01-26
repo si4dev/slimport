@@ -15,7 +15,7 @@ class Model_Product extends Model_Table {
 		$this->addField('unit')->defaultValue(1);
 		$this->addField('purchase_price');
 		$this->addField('sellprice');
-		$this->hasOne('tax')->emptyText(null);  	
+		$this->hasOne('Tax')->emptyText(null);  	
 		$this->addField('active');	
 		$this->hasMany('RuleChart','id','rule_pl_id');
 		$this->hasMany('RuleChart_Tax','id','rule_tax_id');		

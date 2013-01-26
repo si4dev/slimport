@@ -5,8 +5,8 @@ class Model_Chart_Link extends Model_Table {
 	function init(){
 	  parent::init();
 	  
-		$this->hasOne('product_group', 'type_id');
-		$this->hasOne('tax');
+		$this->hasOne('ProductGroup', 'type_id');
+		$this->hasOne('Tax');
 		$this->addField('ar_revenue_chart_id');
 		$this->addField('ar_tax_chart_id');
 		$this->addField('ar_inventory_chart_id');

@@ -3,10 +3,10 @@
 class Page_chartlink extends Page {
 	function init(){
 		parent::init();
-		$this->add('h1')->set('Manage Chart Link');
-		$this->add('hr');
+		$this->add('H1')->set('Manage Chart Link');
+		$this->add('HR');
 		$crud = $this->add('CRUD');
-		$m = $this->add('Model_chart_link');
+		$m = $this->add('Model_Chart_link');
 		$crud->setModel($m);
 		if($crud->grid){
 			$crud->grid->removeColumn('business');

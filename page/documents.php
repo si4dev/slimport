@@ -13,7 +13,7 @@ class Page_Documents extends Page {
 		$this->api->redirect('document_add');
 	}
 	
-	$this->add('hr');
+	$this->add('HR');
 	
     
     $c=$this->add('Grid');
